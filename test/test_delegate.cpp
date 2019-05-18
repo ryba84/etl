@@ -28,7 +28,7 @@ SOFTWARE.
 
 #include "UnitTest++.h"
 
-#include "etl/private/delegate.h"
+#include "etl/delegate.h"
 
 namespace
 {

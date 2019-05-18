@@ -249,7 +249,6 @@
 		<Unit filename="../../include/etl/pool.h" />
 		<Unit filename="../../include/etl/power.h" />
 		<Unit filename="../../include/etl/priority_queue.h" />
-		<Unit filename="../../include/etl/private/delegate.h" />
 		<Unit filename="../../include/etl/private/delegate_base.h" />
 		<Unit filename="../../include/etl/private/delegate_base_cpp03.h" />
 		<Unit filename="../../include/etl/private/delegate_cpp03.h" />

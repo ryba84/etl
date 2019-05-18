@@ -382,8 +382,6 @@
     <ClInclude Include="..\..\include\etl\absolute.h" />
     <ClInclude Include="..\..\include\etl\multi_array.h" />
     <ClInclude Include="..\..\include\etl\negative.h" />
-    <ClInclude Include="..\..\include\etl\private\delegate.h" />
-    <ClInclude Include="..\..\include\etl\private\delegate_cpp03.h" />
     <ClInclude Include="..\..\include\etl\private\to_string_helper.h" />
     <ClInclude Include="..\..\include\etl\queue_spsc_locked.h" />
     <ClInclude Include="..\..\include\etl\scaled_rounding.h" />
