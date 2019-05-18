@@ -46,6 +46,8 @@ namespace
     int d;
   };
 
+  Data data;
+
   //*****************************************************************************
   // The free function taking no parameters.
   //*****************************************************************************
@@ -79,6 +81,7 @@ namespace
   {
   public:
 
+    //*******************************************
     // void
     void member_void()
     {
@@ -90,6 +93,7 @@ namespace
       function_called = true;
     }
 
+    //*******************************************
     // int
     void member_int(int i, int j)
     {
@@ -103,6 +107,7 @@ namespace
       parameter_correct = (i == VALUE1) && (j == VALUE2);
     }
 
+    //*******************************************
     // reference
     void member_reference(const Data& data, int j)
     {
@@ -116,15 +121,29 @@ namespace
       parameter_correct = (data.d == VALUE1) && (j = VALUE2);
     }
 
+    //*******************************************
     // static
     static void member_static(const Data& data, int j)
     {
       function_called = true;
       parameter_correct = (data.d == VALUE1) && (j = VALUE2);
     }
+
+    //*******************************************
+    // operator()
+    void operator()()
+    {
+      function_called = true;
+    }
+
+    void operator()() const
+    {
+      function_called = true;
+    }
   };
 
   Test test_static;
+  const Test const_test_static;
 }
 
 //*****************************************************************************
@@ -144,6 +163,24 @@ namespace
   SUITE(test_delegate)
   {
     //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_is_valid_false)
+    {
+      etl::delegate<void(void)> d;
+
+      CHECK(!d.is_valid());
+      CHECK(!d);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_is_valid_true)
+    {
+      etl::delegate<void(void)> d([] {});
+
+      CHECK(d.is_valid());
+      CHECK(d);
+    }
+
+    //*************************************************************************
     TEST_FIXTURE(SetupFixture, test_free_void)
     {
       etl::delegate<void(void)> d = etl::delegate<void(void)>::create<free_void>();
@@ -154,30 +191,9 @@ namespace
     }
 
     //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_free_void)
-    {
-      const etl::delegate<void(void)> d = etl::delegate<void(void)>::create<free_void>();
-
-      d();
-
-      CHECK(function_called);
-    }
-
-    //*************************************************************************
     TEST_FIXTURE(SetupFixture, test_free_int)
     {
       etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<free_int>();
-
-      d(VALUE1, VALUE2);
-
-      CHECK(function_called);
-      CHECK(parameter_correct);
-    }
-
-    //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_free_int)
-    {
-      const etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<free_int>();
 
       d(VALUE1, VALUE2);
 
@@ -200,9 +216,108 @@ namespace
     }
 
     //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_free_reference)
+    TEST_FIXTURE(SetupFixture, test_lambda_int)
     {
-      const etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<free_reference>();
+      etl::delegate<void(int, int)> d([](int i, int j) { function_called = true; parameter_correct = (i == VALUE1) && (j == VALUE2); });
+
+      d(VALUE1, VALUE2);
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_operator_void)
+    {
+      Test test;
+
+      etl::delegate<void(void)> d(test);
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_operator_void_const)
+    {
+      const Test test;
+
+      etl::delegate<void(void)> d(test);
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_assignment_member_operator_void)
+    {
+      Test test;
+
+      etl::delegate<void(void)> d;
+
+      d = test;
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_void)
+    {
+      Test test;
+
+      etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void>(test);
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_void_const)
+    {
+      const Test test;
+
+      etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void_const>(test);
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_int)
+    {
+      Test test;
+
+      etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<Test, &Test::member_int>(test);
+
+      d(VALUE1, VALUE2);
+
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_int_const)
+    {
+      const Test test;
+
+      etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<Test, &Test::member_int_const>(test);
+
+      d(VALUE1, VALUE2);
+
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_reference)
+    {
+      Test test;
+      etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test, &Test::member_reference>(test);
 
       Data data;
       data.d = VALUE1;
@@ -214,200 +329,23 @@ namespace
     }
 
     //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_member_void)
+    TEST_FIXTURE(SetupFixture, test_member_reference_const)
     {
-      Test test;
+      const Test test;
+      etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test, &Test::member_reference_const>(test);
 
-      etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void>(&test);
+      Data data;
+      data.d = VALUE1;
 
-      d();
+      d(data, VALUE2);
 
       CHECK(function_called);
+      CHECK(parameter_correct);
     }
 
     //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_member_void_const)
+    TEST_FIXTURE(SetupFixture, test_member_void_compile_time)
     {
-      Test test;
-
-      etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void_const>(&test);
-
-      d();
-
-      CHECK(function_called);
-    }
-
-    //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_member_void)
-    {
-      Test test;
-
-      const etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void>(&test);
-
-      d();
-
-      CHECK(function_called);
-    }
-
-    //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_member_void_const)
-    {
-      Test test;
-
-      const etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, &Test::member_void_const>(&test);
-
-      d();
-
-      CHECK(function_called);
-    }
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_int)
-    //{
-    //  Test test;
-    //  etl::function<Test, int> function(test, &Test::member_int);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_int_const)
-    //{
-    //  Test test;
-    //  etl::function<Test, int> function(test, &Test::member_int);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_int)
-    //{
-    //  Test test;
-    //  const etl::function<Test, int> function(test, &Test::member_int);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_int_const)
-    //{
-    //  Test test;
-    //  const etl::function<Test, int> function(test, &Test::member_int);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_reference)
-    //{
-    //  Test test;
-    //  etl::function<Test, const Data&> function(test, &Test::member_reference);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_reference)
-    //{
-    //  Test test;
-    //  const etl::function<Test, const Data&> function(test, &Test::member_reference);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_void_compile_time)
-    //{
-    //  Test test;
-    //  etl::function_mv<Test, &Test::member_void> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_void_compile_time)
-    //{
-    //  Test test;
-    //  const etl::function_mv<Test, &Test::member_void> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_int_compile_time)
-    //{
-    //  Test test;
-    //  etl::function_mp<Test, int, &Test::member_int> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_int_compile_time)
-    //{
-    //  Test test;
-    //  const etl::function_mp<Test, int, &Test::member_int> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_member_reference_compile_time)
-    //{
-    //  Test test;
-    //  etl::function_mp<Test, const Data&, &Test::member_reference> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_member_reference_compile_time)
-    //{
-    //  Test test;
-    //  const etl::function_mp<Test, const Data&, &Test::member_reference> function(test);
-
-    //  call(function);
-
-    //  CHECK(function_called);
-    //  CHECK(parameter_correct);
-    //}
-
-    //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_instance_member_void_compile_time)
-    {
-      function_called = false;
-
       etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, test_static, &Test::member_void>();
 
       d();
@@ -416,63 +354,115 @@ namespace
     }
 
     //*************************************************************************
-    TEST_FIXTURE(SetupFixture, test_const_instance_member_void_compile_time)
+    TEST_FIXTURE(SetupFixture, test_member_void_const_compile_time)
     {
-      function_called = false;
-
-      const etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, test_static, &Test::member_void>();
+      etl::delegate<void(void)> d = etl::delegate<void(void)>::create<Test, const_test_static, &Test::member_void_const>();
 
       d();
 
       CHECK(function_called);
     }
 
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_instance_member_parameter_compile_time)
-    //{
-    //  function_called = false;
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_int_compile_time)
+    {
+      etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<Test, test_static, &Test::member_int>();
 
-    //  etl::function_imp<Test, int, test_static, &Test::member_int> function;
+      d(VALUE1, VALUE2);
 
-    //  call(function);
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
 
-    //  CHECK(function_called);
-    //}
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_int_const_compile_time)
+    {
+      etl::delegate<void(int, int)> d = etl::delegate<void(int, int)>::create<Test, const_test_static, &Test::member_int_const>();
 
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_instance_member_parameter_compile_time)
-    //{
-    //  function_called = false;
+      d(VALUE1, VALUE2);
 
-    //  const etl::function_imp<Test, int, test_static, &Test::member_int> function;
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
 
-    //  call(function);
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_reference_compile_time)
+    {
+      etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test, test_static, &Test::member_reference>();
 
-    //  CHECK(function_called);
-    //}
+      Data data;
+      data.d = VALUE1;
 
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_instance_member_reference_compile_time)
-    //{
-    //  function_called = false;
+      d(data, VALUE2);
 
-    //  etl::function_imp<Test, const Data&, test_static, &Test::member_reference> function;
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
 
-    //  call(function);
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_reference_const_compile_time)
+    {
+      etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test, const_test_static, &Test::member_reference_const>();
 
-    //  CHECK(function_called);
-    //}
+      Data data;
+      data.d = VALUE1;
 
-    ////*************************************************************************
-    //TEST_FIXTURE(SetupFixture, test_const_instance_member_reference_compile_time)
-    //{
-    //  function_called = false;
+      d(data, VALUE2);
 
-    //  const etl::function_imp<Test, const Data&, test_static, &Test::member_reference> function;
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
 
-    //  call(function);
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_copy_construct)
+    {
+      Test test;
 
-    //  CHECK(function_called);
-    //}
+      etl::delegate<void(int, int)> d1 = etl::delegate<void(int, int)>::create<Test, &Test::member_int>(test);
+      etl::delegate<void(int, int)> d2(d1);
+
+      d2(VALUE1, VALUE2);
+
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_assignment)
+    {
+      Test test;
+
+      etl::delegate<void(int, int)> d1 = etl::delegate<void(int, int)>::create<Test, &Test::member_int>(test);
+      etl::delegate<void(int, int)> d2;
+
+      d2 = d1;
+
+      d2(VALUE1, VALUE2);
+
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_delegate_equal)
+    {
+      Test test;
+
+      etl::delegate<void(int, int)> d1 = etl::delegate<void(int, int)>::create<Test, &Test::member_int>(test);
+      etl::delegate<void(int, int)> d2 = d1;
+
+      CHECK(d1 == d2);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_delegate_not_equal)
+    {
+      Test test;
+
+      etl::delegate<void(int, int)> d1 = etl::delegate<void(int, int)>::create<Test, &Test::member_int>(test);
+      etl::delegate<void(int, int)> d2 = etl::delegate<void(int, int)>::create<Test, &Test::member_int_const>(test);;
+
+      CHECK(d1 != d2);
+    }
   };
 }

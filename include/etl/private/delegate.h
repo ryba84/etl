@@ -1,3 +1,5 @@
+
+
 ///\file
 
 /******************************************************************************
@@ -30,57 +32,40 @@ SOFTWARE.
 
 /******************************************************************************
 
-  Copyright (C) 2017 by Sergey A Kryukov: derived work
-  http://www.SAKryukov.org
-  http://www.codeproject.com/Members/SAKryukov
+Copyright (C) 2017 by Sergey A Kryukov: derived work
+http://www.SAKryukov.org
+http://www.codeproject.com/Members/SAKryukov
 
-  Based on original work by Sergey Ryazanov:
-  "The Impossibly Fast C++ Delegates", 18 Jul 2005
-  https://www.codeproject.com/articles/11015/the-impossibly-fast-c-delegates
+Based on original work by Sergey Ryazanov:
+"The Impossibly Fast C++ Delegates", 18 Jul 2005
+https://www.codeproject.com/articles/11015/the-impossibly-fast-c-delegates
 
-  MIT license:
-  http://en.wikipedia.org/wiki/MIT_License
+MIT license:
+http://en.wikipedia.org/wiki/MIT_License
 
-  Original publication: https://www.codeproject.com/Articles/1170503/The-Impossibly-Fast-Cplusplus-Delegates-Fixed
+Original publication: https://www.codeproject.com/Articles/1170503/The-Impossibly-Fast-Cplusplus-Delegates-Fixed
 
 ******************************************************************************/
 
 #ifndef ETL_PRIVATE_DELEGATE_INCLUDED
 #define ETL_PRIVATE_DELEGATE_INCLUDED
 
-#include "delegate_base.h"
-
 namespace etl
 {
   template <typename T> class delegate;
-  template <typename T> class multicast_delegate;
 
-  template<typename TReturn, typename ...TParams>
-  class delegate<TReturn(TParams...)> final : private delegate_base<TReturn(TParams...)>
+  template <typename TReturn, typename... TParams>
+  class delegate<TReturn(TParams...)> final
   {
   public:
 
     //*************************************************************************
+    /// Default constructor.
+    //*************************************************************************
     delegate() = default;
 
     //*************************************************************************
-    bool is_null() const
-    {
-      return invocation.stub == nullptr;
-    }
-
-    //*************************************************************************
-    bool operator ==(void* ptr) const
-    {
-      return (ptr == nullptr) && this->is_null();
-    }
-
-    //*************************************************************************
-    bool operator !=(void* ptr) const
-    {
-      return (ptr != nullptr) || (!this->is_null());
-    }
-
+    // Copy constructor.
     //*************************************************************************
     delegate(const delegate& other)
     {
@@ -88,65 +73,16 @@ namespace etl
     }
 
     //*************************************************************************
+    // Constructor from lambda or functor.
+    //*************************************************************************
     template <typename TLambda>
-    delegate(const TLambda& lambda)
-    {
-      assign((void*)(&lambda), lambda_stub<TLambda>);
-    }
-
-    //*************************************************************************
-    delegate& operator =(const delegate& other)
-    {
-      other.invocation.clone(invocation);
-      return *this;
-    }
-
-    //*************************************************************************
-    template <typename TLambda> // Template instantiation is not needed, will be deduced (inferred):
-    delegate& operator =(const TLambda& instance)
+    delegate(const TLambda& instance)
     {
       assign((void*)(&instance), lambda_stub<TLambda>);
-      return *this;
     }
 
     //*************************************************************************
-    bool operator == (const delegate& other) const
-    {
-      return invocation == other.invocation;
-    }
-
-    //*************************************************************************
-    bool operator != (const delegate& other) const
-    {
-      return invocation != other.invocation;
-    }
-
-    //*************************************************************************
-    bool operator ==(const multicast_delegate<TReturn(TParams...)>& other) const
-    {
-      return other == (*this);
-    }
-
-    //*************************************************************************
-    bool operator !=(const multicast_delegate<TReturn(TParams...)>& other) const
-    {
-      return other != (*this);
-    }
-
-    //*************************************************************************
-    template <typename T, TReturn(T::*Method)(TParams...)>
-    static delegate create(T* instance)
-    {
-      return delegate(instance, method_stub<T, Method>);
-    }
-
-    //*************************************************************************
-    template <typename T, TReturn(T::*Method)(TParams...) const>
-    static delegate create(T const* instance)
-    {
-      return delegate(const_cast<T*>(instance), const_method_stub<T, Method>);
-    }
-
+    /// Create from function (Compile time).
     //*************************************************************************
     template <TReturn(*Method)(TParams...)>
     static delegate create()
@@ -155,12 +91,34 @@ namespace etl
     }
 
     //*************************************************************************
+    /// Create from Lambda or Functor.
+    //*************************************************************************
     template <typename TLambda>
-    static delegate create(const TLambda & instance)
+    static delegate create(const TLambda& instance)
     {
       return delegate((void*)(&instance), lambda_stub<TLambda>);
     }
 
+    //*************************************************************************
+    /// Create from instance method (Run time).
+    //*************************************************************************
+    template <typename T, TReturn(T::*Method)(TParams...)>
+    static delegate create(T& instance)
+    {
+      return delegate((void*)(&instance), method_stub<T, Method>);
+    }
+
+    //*************************************************************************
+    /// Create from const instance method (Run time).
+    //*************************************************************************
+    template <typename T, TReturn(T::*Method)(TParams...) const>
+    static delegate create(const T& instance)
+    {
+      return delegate((void*)(&instance), const_method_stub<T, Method>);
+    }
+
+    //*************************************************************************
+    /// Create from instance method (Compile time).
     //*************************************************************************
     template <typename T, T& Instance, TReturn(T::*Method)(TParams...)>
     static delegate create()
@@ -169,41 +127,144 @@ namespace etl
     }
 
     //*************************************************************************
+    /// Create from const instance method (Compile time).
+    //*************************************************************************
     template <typename T, T const& Instance, TReturn(T::*Method)(TParams...) const>
     static delegate create()
     {
-      return delegate(method_instance_stub<T, Instance, Method>);
+      return delegate(const_method_instance_stub<T, Instance, Method>);
     }
 
     //*************************************************************************
-    TReturn operator()(TParams... arg) const
+    /// Execute the delegate.
+    //*************************************************************************
+    TReturn operator()(TParams... args) const
     {
-      return (*invocation.stub)(invocation.object, arg...);
+      return (*invocation.stub)(invocation.object, args...);
+    }
+
+    //*************************************************************************
+    /// Create from function (Compile time).
+    //*************************************************************************
+    delegate& operator =(const delegate& other)
+    {
+      other.invocation.clone(invocation);
+      return *this;
+    }
+
+    //*************************************************************************
+    /// Create from Lambda or Functor.
+    //*************************************************************************
+    template <typename TLambda>
+    delegate& operator =(const TLambda& instance)
+    {
+      assign((void*)(&instance), lambda_stub<TLambda>);
+      return *this;
+    }
+
+    //*************************************************************************
+    /// Checks equality.
+    //*************************************************************************
+    bool operator == (const delegate& other) const
+    {
+      return invocation == other.invocation;
+    }
+
+    //*************************************************************************
+    /// Returns <b>true</b> if the delegate is valid.
+    //*************************************************************************
+    bool operator != (const delegate& other) const
+    {
+      return invocation != other.invocation;
+    }
+
+    //*************************************************************************
+    /// Returns <b>true</b> if the delegate is valid.
+    //*************************************************************************
+    bool is_valid() const
+    {
+      return invocation.stub != nullptr;
+    }
+
+    //*************************************************************************
+    /// Returns <b>true</b> if the delegate is valid.
+    //*************************************************************************
+    operator bool() const
+    {
+      return is_valid();
     }
 
   private:
 
+    using stub_type = TReturn(*)(void* this_ptr, TParams...);
+
     //*************************************************************************
-    delegate(void* object, typename delegate_base<TReturn(TParams...)>::stub_type stub)
+    /// The internal invocation object.
+    //*************************************************************************
+    struct invocation_element
+    {
+      invocation_element() = default;
+
+      //***********************************************************************
+      invocation_element(void* this_ptr, stub_type stub)
+        : object(this_ptr)
+        , stub(stub)
+      {
+      }
+
+      //***********************************************************************
+      void clone(invocation_element& target) const
+      {
+        target.stub   = stub;
+        target.object = object;
+      }
+
+      //***********************************************************************
+      bool operator ==(const invocation_element& another) const
+      {
+        return (another.stub == stub) && (another.object == object);
+      }
+
+      //***********************************************************************
+      bool operator !=(const invocation_element& another) const
+      {
+        return (another.stub != stub) || (another.object != object);
+      }
+
+      //***********************************************************************
+      void*     object = nullptr;
+      stub_type stub   = nullptr;
+    };
+
+    //*************************************************************************
+    /// Constructs a delegate from an object and stub.
+    //*************************************************************************
+    delegate(void* object, stub_type stub)
     {
       invocation.object = object;
       invocation.stub   = stub;
     }
 
     //*************************************************************************
-    delegate(typename delegate_base<TReturn(TParams...)>::stub_type stub)
+    /// Constructs a delegate from a stub.
+    //*************************************************************************
+    delegate(stub_type stub)
     {
       invocation.object = nullptr;
       invocation.stub   = stub;
     }
 
     //*************************************************************************
-    void assign(void* object, typename delegate_base<TReturn(TParams...)>::stub_type stub)
+    /// Assign from an object and stub.
+    //*************************************************************************
+    void assign(void* object, stub_type stub)
     {
-      this->invocation.object = object;
-      this->invocation.stub   = stub;
+      invocation.object = object;
+      invocation.stub   = stub;
     }
 
+    //*************************************************************************
+    /// Stub call for a member function. Run time instance.
     //*************************************************************************
     template <typename T, TReturn(T::*Method)(TParams...)>
     static TReturn method_stub(void* this_ptr, TParams... params)
@@ -213,6 +274,8 @@ namespace etl
     }
 
     //*************************************************************************
+    /// Stub call for a const member function. Run time instance.
+    //*************************************************************************
     template <typename T, TReturn(T::*Method)(TParams...) const>
     static TReturn const_method_stub(void* this_ptr, TParams... params)
     {
@@ -221,12 +284,16 @@ namespace etl
     }
 
     //*************************************************************************
+    /// Stub call for a member function. Compile time instance.
+    //*************************************************************************
     template <typename T, T& Instance, TReturn(T::*Method)(TParams...)>
     static TReturn method_instance_stub(void*, TParams... params)
     {
       return (Instance.*Method)(params...);
     }
 
+    //*************************************************************************
+    /// Stub call for a const member function. Compile time instance.
     //*************************************************************************
     template <typename T, const T& Instance, TReturn(T::*Method)(TParams...) const>
     static TReturn const_method_instance_stub(void*, TParams... params)
@@ -235,12 +302,16 @@ namespace etl
     }
 
     //*************************************************************************
+    /// Stub call for a free function.
+    //*************************************************************************
     template <TReturn(*Method)(TParams...)>
     static TReturn function_stub(void*, TParams... params)
     {
       return (Method)(params...);
     }
 
+    //*************************************************************************
+    /// Stub call for a lambda or functor function.
     //*************************************************************************
     template <typename TLambda>
     static TReturn lambda_stub(void* this_ptr, TParams... arg)
@@ -250,10 +321,9 @@ namespace etl
     }
 
     //*************************************************************************
-    friend class multicast_delegate<TReturn(TParams...)>;
-
+    /// The invocation object.
     //*************************************************************************
-    typename delegate_base<TReturn(TParams...)>::invocation_element invocation;
+    invocation_element invocation;
   };
 }
 

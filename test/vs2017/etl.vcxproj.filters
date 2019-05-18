@@ -768,13 +768,7 @@
     <ClInclude Include="..\..\include\etl\multi_array.h">
       <Filter>ETL\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\etl\private\delegate_base.h">
-      <Filter>ETL\Private</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\etl\private\delegate.h">
-      <Filter>ETL\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\private\delegate_base_cpp03.h">
       <Filter>ETL\Private</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\private\delegate_cpp03.h">

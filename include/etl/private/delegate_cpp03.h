@@ -53,10 +53,9 @@ SOFTWARE.
 namespace etl
 {
   template <typename T> class delegate;
-  template <typename T> class multicast_delegate;
 
   template<typename TReturn, typename TParam>
-  class delegate<TReturn(TParam)> final : private delegate_base<TReturn(TParam)>
+  class delegate<TReturn(TParam)> : private delegate_base<TReturn(TParam)>
   {
   public:
 
@@ -116,18 +115,6 @@ namespace etl
     bool operator != (const delegate& other) const
     {
       return invocation != other.invocation;
-    }
-
-    //*************************************************************************
-    bool operator ==(const multicast_delegate<TReturn(TParam)>& other) const
-    {
-      return other == (*this);
-    }
-
-    //*************************************************************************
-    bool operator !=(const multicast_delegate<TReturn(TParam)>& other) const
-    {
-      return other != (*this);
     }
 
     //*************************************************************************
@@ -245,9 +232,6 @@ namespace etl
       TLambda* p = static_cast<TLambda*>(this_ptr);
       return (p->operator())(arg);
     }
-
-    //*************************************************************************
-    friend class multicast_delegate<TReturn(TParam)>;
 
     //*************************************************************************
     typename delegate_base<TReturn(TParam)>::invocation_element invocation;
