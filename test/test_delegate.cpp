@@ -226,11 +226,35 @@ namespace
     }
 
     //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_lambda_int_create)
+    {
+      auto lambda = [](int i, int j) { function_called = true; parameter_correct = (i == VALUE1) && (j == VALUE2); };
+
+      etl::delegate<void(int, int)> d(lambda);
+
+      d(VALUE1, VALUE2);
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
     TEST_FIXTURE(SetupFixture, test_member_operator_void)
     {
       Test test;
 
       etl::delegate<void(void)> d(test);
+
+      d();
+
+      CHECK(function_called);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_operator_void_create)
+    {
+      Test test;
+
+      etl::delegate<void(void)> d = etl::delegate<void(void)>::create(test);
 
       d();
 
@@ -333,6 +357,20 @@ namespace
     {
       const Test test;
       etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test, &Test::member_reference_const>(test);
+
+      Data data;
+      data.d = VALUE1;
+
+      d(data, VALUE2);
+
+      CHECK(function_called);
+      CHECK(parameter_correct);
+    }
+
+    //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_member_static)
+    {
+      etl::delegate<void(const Data&, int)> d = etl::delegate<void(const Data&, int)>::create<Test::member_static>();
 
       Data data;
       data.d = VALUE1;
