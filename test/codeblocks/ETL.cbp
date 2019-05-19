@@ -182,6 +182,7 @@
 		<Unit filename="../../include/etl/debounce.h" />
 		<Unit filename="../../include/etl/debug_count.h" />
 		<Unit filename="../../include/etl/delegate.h" />
+		<Unit filename="../../include/etl/delegate_service.h" />
 		<Unit filename="../../include/etl/deque.h" />
 		<Unit filename="../../include/etl/doxygen.h" />
 		<Unit filename="../../include/etl/endianness.h" />
@@ -367,6 +368,7 @@
 		<Unit filename="../test_cyclic_value.cpp" />
 		<Unit filename="../test_debounce.cpp" />
 		<Unit filename="../test_delegate.cpp" />
+		<Unit filename="../test_delegate_service.cpp" />
 		<Unit filename="../test_deque.cpp" />
 		<Unit filename="../test_endian.cpp" />
 		<Unit filename="../test_enum_type.cpp" />

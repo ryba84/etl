@@ -200,7 +200,7 @@ namespace etl
 
   private:
 
-    using stub_type = TReturn(*)(void* this_ptr, TParams...);
+    using stub_type = TReturn(*)(void* object, TParams...);
 
     //*************************************************************************
     /// The internal invocation object.
@@ -210,16 +210,16 @@ namespace etl
       invocation_element() = default;
 
       //***********************************************************************
-      invocation_element(void* this_ptr, stub_type stub)
-        : object(this_ptr)
-        , stub(stub)
+      invocation_element(void* object_, stub_type stub_)
+        : object(object_)
+        , stub(stub_)
       {
       }
 
       //***********************************************************************
       void clone(invocation_element& target) const
       {
-        target.stub = stub;
+        target.stub   = stub;
         target.object = object;
       }
 
@@ -237,7 +237,7 @@ namespace etl
 
       //***********************************************************************
       void*     object = nullptr;
-      stub_type stub = nullptr;
+      stub_type stub   = nullptr;
     };
 
     //*************************************************************************
@@ -246,7 +246,7 @@ namespace etl
     delegate(void* object, stub_type stub)
     {
       invocation.object = object;
-      invocation.stub = stub;
+      invocation.stub   = stub;
     }
 
     //*************************************************************************
@@ -255,7 +255,7 @@ namespace etl
     delegate(stub_type stub)
     {
       invocation.object = nullptr;
-      invocation.stub = stub;
+      invocation.stub   = stub;
     }
 
     //*************************************************************************
@@ -264,16 +264,16 @@ namespace etl
     void assign(void* object, stub_type stub)
     {
       invocation.object = object;
-      invocation.stub = stub;
+      invocation.stub   = stub;
     }
 
     //*************************************************************************
     /// Stub call for a member function. Run time instance.
     //*************************************************************************
     template <typename T, TReturn(T::*Method)(TParams...)>
-    static TReturn method_stub(void* this_ptr, TParams... params)
+    static TReturn method_stub(void* object, TParams... params)
     {
-      T* p = static_cast<T*>(this_ptr);
+      T* p = static_cast<T*>(object);
       return (p->*Method)(params...);
     }
 
@@ -281,9 +281,9 @@ namespace etl
     /// Stub call for a const member function. Run time instance.
     //*************************************************************************
     template <typename T, TReturn(T::*Method)(TParams...) const>
-    static TReturn const_method_stub(void* this_ptr, TParams... params)
+    static TReturn const_method_stub(void* object, TParams... params)
     {
-      T* const p = static_cast<T*>(this_ptr);
+      T* const p = static_cast<T*>(object);
       return (p->*Method)(params...);
     }
 
@@ -318,9 +318,9 @@ namespace etl
     /// Stub call for a lambda or functor function.
     //*************************************************************************
     template <typename TLambda>
-    static TReturn lambda_stub(void* this_ptr, TParams... arg)
+    static TReturn lambda_stub(void* object, TParams... arg)
     {
-      TLambda* p = static_cast<TLambda*>(this_ptr);
+      TLambda* p = static_cast<TLambda*>(object);
       return (p->operator())(arg...);
     }
 
