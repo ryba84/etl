@@ -51,7 +51,7 @@ namespace etl
   template <const size_t NV, const size_t POWER>
   struct power
   {
-    static const uint64_t value = NV * power<NV, POWER - 1>::value;
+    static ETL_CONST_OR_CONSTEXPR uint64_t value = NV * power<NV, POWER - 1>::value;
   };
 
   //***************************************************************************
@@ -62,8 +62,13 @@ namespace etl
   template <const size_t NV>
   struct power<NV, 0>
   {
-    static const uint64_t value = 1;
+    static ETL_CONST_OR_CONSTEXPR uint64_t value = 1;
   };
+
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV, const size_t POWER>
+  ETL_INLINE_VAR constexpr size_t power_v = etl::power<NV>::value;
+#endif
 
   //***************************************************************************
   ///\ingroup power
@@ -91,6 +96,11 @@ namespace etl
       value = 2
     };
   };
+
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV>
+  ETL_INLINE_VAR constexpr size_t power_of_2_round_up_v = etl::power_of_2_round_up<NV>::value;
+#endif
 
   //***************************************************************************
   ///\ingroup power
@@ -147,6 +157,11 @@ namespace etl
     };
   };
 
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV>
+  ETL_INLINE_VAR constexpr size_t power_of_2_round_down_v = etl::power_of_2_round_down<NV>::value;
+#endif
+
   //***************************************************************************
   ///\ingroup power
   /// Checks if N is a power of 2.
@@ -154,7 +169,7 @@ namespace etl
   template <const size_t NV>
   struct is_power_of_2
   {
-    static const bool value = (NV & (NV - 1)) == 0;
+    static ETL_CONST_OR_CONSTEXPR bool value = (NV & (NV - 1)) == 0;
   };
 
   //***************************************************************************
@@ -165,7 +180,7 @@ namespace etl
   template <>
   struct is_power_of_2<0>
   {
-    static const bool value = false;
+    static ETL_CONST_OR_CONSTEXPR bool value = false;
   };
 
   //***************************************************************************
@@ -178,6 +193,11 @@ namespace etl
   {
     static const bool value = false;
   };
+
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV>
+  ETL_INLINE_VAR constexpr bool is_power_of_2_v = etl::is_power_of_2<NV>::value;
+#endif
 }
 
 #endif

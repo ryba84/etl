@@ -40,7 +40,7 @@ SOFTWARE.
 namespace etl 
 {
   //***************************************************************************
-  /// Calculates the smallest value that, when squared, will be not greater than VALUE.
+  /// Calculates the largest value that, when squared, will be not greater than VALUE.
   //***************************************************************************
   template <const size_t VALUE, const size_t I = 1>
   struct sqrt
@@ -55,6 +55,11 @@ namespace etl
       value = type::value
     };
   };
+
+#if ETL_CPP14_SUPPORTED
+  template <const size_t VALUE, const size_t I = 1>
+  ETL_INLINE_VAR constexpr size_t sqrt_v = etl::sqrt<VALUE, I>::value;
+#endif
 }
 
 #endif

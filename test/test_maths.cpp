@@ -431,6 +431,23 @@ namespace
     }
 
     //*************************************************************************
+    TEST(test_permutations_v)
+    {
+      size_t actual;
+
+
+      CHECK_EQUAL((permutations(6, 2)), (actual = etl::permutations_v< 6, 2>));
+      CHECK_EQUAL((permutations(7, 3)), (actual = etl::permutations_v< 7, 3>));
+      CHECK_EQUAL((permutations(8, 4)), (actual = etl::permutations_v< 8, 4>));
+      CHECK_EQUAL((permutations(9, 5)), (actual = etl::permutations_v< 9, 5>));
+      CHECK_EQUAL((permutations(10, 6)), (actual = etl::permutations_v<10, 6>));
+      CHECK_EQUAL((permutations(11, 7)), (actual = etl::permutations_v<11, 7>));
+      CHECK_EQUAL((permutations(12, 8)), (actual = etl::permutations_v<12, 8>));
+      CHECK_EQUAL((permutations(13, 9)), (actual = etl::permutations_v<13, 9>));
+      CHECK_EQUAL((permutations(14, 10)), (actual = etl::permutations_v<14, 10>));
+    }
+
+    //*************************************************************************
     TEST(test_combinations)
     {
       size_t actual;
@@ -444,6 +461,22 @@ namespace
       CHECK_EQUAL((combinations(12,  8)), (actual = etl::combinations<12,  8>::value));
       CHECK_EQUAL((combinations(13,  9)), (actual = etl::combinations<13,  9>::value));
       CHECK_EQUAL((combinations(14, 10)), (actual = etl::combinations<14, 10>::value));
+    }
+
+    //*************************************************************************
+    TEST(test_combinations_v)
+    {
+      size_t actual;
+
+      CHECK_EQUAL((combinations(6, 2)), (actual = etl::combinations_v< 6, 2>));
+      CHECK_EQUAL((combinations(7, 3)), (actual = etl::combinations_v< 7, 3>));
+      CHECK_EQUAL((combinations(8, 4)), (actual = etl::combinations_v< 8, 4>));
+      CHECK_EQUAL((combinations(9, 5)), (actual = etl::combinations_v< 9, 5>));
+      CHECK_EQUAL((combinations(10, 6)), (actual = etl::combinations_v<10, 6>));
+      CHECK_EQUAL((combinations(11, 7)), (actual = etl::combinations_v<11, 7>));
+      CHECK_EQUAL((combinations(12, 8)), (actual = etl::combinations_v<12, 8>));
+      CHECK_EQUAL((combinations(13, 9)), (actual = etl::combinations_v<13, 9>));
+      CHECK_EQUAL((combinations(14, 10)), (actual = etl::combinations_v<14, 10>));
     }
   };
 }

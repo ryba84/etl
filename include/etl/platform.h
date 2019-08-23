@@ -78,14 +78,18 @@ SOFTWARE.
 
 #if ETL_CPP11_SUPPORTED
   #define ETL_CONSTEXPR constexpr
+  #define ETL_CONST_OR_CONSTEXPR constexpr
 #else
   #define ETL_CONSTEXPR
+  #define ETL_CONST_OR_CONSTEXPR const
 #endif
 
 #if ETL_CPP17_SUPPORTED
   #define ETL_IF_CONSTEXPR constexpr
+  #define ETL_INLINE_VAR inline
 #else
   #define ETL_IF_CONSTEXPR
+  #define ETL_INLINE_VAR
 #endif
 
 #if ETL_CPP11_SUPPORTED

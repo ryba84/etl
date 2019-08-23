@@ -85,6 +85,11 @@ namespace etl
     };
   };
 
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV, const size_t BASE>
+  ETL_INLINE_VAR constexpr size_t log_v = etl::log<NV, BASE>::value;
+#endif
+
   //***************************************************************************
   ///\ingroup log
   /// Calculates base 2 logs.
@@ -98,6 +103,11 @@ namespace etl
     };
   };
 
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV>
+  ETL_INLINE_VAR constexpr size_t log2_v = etl::log2<NV>::value;
+#endif
+
   //***************************************************************************
   ///\ingroup log
   /// Calculates base 10 logs.
@@ -110,6 +120,11 @@ namespace etl
       value = log<NV, 10>::value
     };
   };
+
+#if ETL_CPP14_SUPPORTED
+  template <const size_t NV>
+  ETL_INLINE_VAR constexpr size_t log10_v = etl::log10<NV>::value;
+#endif
 }
 
 #endif
