@@ -37,9 +37,15 @@ SOFTWARE.
 
 #include "stl/iterator.h"
 
+#undef __STDC_WANT_LIB_EXT1__
+#define __STDC_WANT_LIB_EXT1__ 1
 #include <string.h>
 
 #include <new>
+
+#if defined(WIN32)
+  #include <Windows.h>
+#endif
 
 ///\defgroup memory memory
 ///\ingroup etl
@@ -1116,10 +1122,13 @@ namespace etl
   //*****************************************************************************
   inline void memory_clear(volatile char* p, size_t n)
   {
-    while (n--)
-    {
-      *p++ = 0;
-    }
+#if defined(WIN32)
+    SecureZeroMemory((PVOID)p, n);
+#elif defined(__STDC_LIB_EXT1__)
+    memset_s((void*)p, n, 0U, n);
+#else
+    memset((void*)p, 0U, n);
+#endif
   }
 
   //*****************************************************************************
@@ -1171,10 +1180,11 @@ namespace etl
   //*****************************************************************************
   inline void memory_set(volatile char* p, size_t n, char value)
   {
-    while (n--)
-    {
-      *p++ = value;
-    }
+#if defined(__STDC_LIB_EXT1__)
+    memset_s((void*)p, n, value, n);
+#else
+    memset((void*)p, value, n);
+#endif
   }
 
   //*****************************************************************************

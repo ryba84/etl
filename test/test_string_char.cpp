@@ -35,6 +35,9 @@ SOFTWARE.
 #include "etl/cstring.h"
 #include "etl/fnv_1.h"
 
+#undef min
+#undef max
+
 #undef STR
 #define STR(x) x
 

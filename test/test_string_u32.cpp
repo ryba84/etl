@@ -34,6 +34,9 @@ SOFTWARE.
 
 #include "etl/u32string.h"
 
+#undef min
+#undef max
+
 #undef STR
 #define STR(x) U##x
 

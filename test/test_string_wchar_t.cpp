@@ -34,6 +34,9 @@ SOFTWARE.
 
 #include "etl/wstring.h"
 
+#undef min
+#undef max
+
 #undef STR
 #define STR(x) L##x
 
