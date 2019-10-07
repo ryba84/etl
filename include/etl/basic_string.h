@@ -50,7 +50,9 @@ SOFTWARE.
 #include "error_handler.h"
 #include "integral_limits.h"
 #include "exception.h"
+#include "memory.h"
 
+#undef ETL_FILE
 #define ETL_FILE "27"
 
 #ifdef ETL_COMPILER_GCC
@@ -220,15 +222,40 @@ namespace etl
       return is_truncated;
     }
 
+    //*************************************************************************
+    /// Clears the 'truncated' flag.
+    //*************************************************************************
+    void clear_truncated()
+    {
+      is_truncated = false;
+    }
+
+    //*************************************************************************
+    /// Sets the 'secure' flag to the requested state.
+    //*************************************************************************
+    void set_secure()
+    {
+      clear_afer_use = true;
+    }
+
+    //*************************************************************************
+    /// Gets the 'secure' state flag.
+//*************************************************************************
+    bool is_secure() const
+    {
+      return clear_afer_use;
+    }
+
   protected:
 
     //*************************************************************************
     /// Constructor.
     //*************************************************************************
     string_base(size_t max_size_)
-      : is_truncated(false),
-        current_size(0),
-        CAPACITY(max_size_)
+      : is_truncated(false)
+      , clear_afer_use(false)
+      , current_size(0)
+      , CAPACITY(max_size_)
     {
     }
 
@@ -239,9 +266,10 @@ namespace etl
     {
     }
 
-    bool            is_truncated; ///< Set to true if the operation truncated the string.
-    size_type       current_size; ///< The current number of elements in the string.
-    const size_type CAPACITY;     ///< The maximum number of elements in the string.
+    bool            is_truncated;   ///< Set to true if the operation truncated the string.
+    bool            clear_afer_use; ///< Set to true if the string must be cleared after use.
+    size_type       current_size;   ///< The current number of elements in the string.
+    const size_type CAPACITY;       ///< The maximum number of elements in the string.
   };
 
   //***************************************************************************
@@ -253,6 +281,8 @@ namespace etl
   class ibasic_string : public etl::string_base
   {
   public:
+
+    typedef ibasic_string<T> interface_type;
 
     typedef T                                     value_type;
     typedef T&                                    reference;
@@ -392,6 +422,11 @@ namespace etl
     //*********************************************************************
     void resize(size_t new_size, T value)
     {
+      if (new_size > CAPACITY)
+      {
+        is_truncated = true;
+      }
+
       new_size = std::min(new_size, CAPACITY);
 
       // Size up?
@@ -402,6 +437,7 @@ namespace etl
 
       current_size = new_size;
       p_buffer[new_size] = 0;
+      cleanup();
     }
 
     //*********************************************************************
@@ -509,8 +545,14 @@ namespace etl
     //*********************************************************************
     void assign(const etl::ibasic_string<T>& other)
     {
-      size_t len = std::min(CAPACITY, other.size());
-      assign(other.begin(), other.begin() + len);
+      assign(other.begin(), other.end());
+
+      if (other.truncated())
+      {
+        is_truncated = true;
+      }
+
+      cleanup();
     }
 
     //*********************************************************************
@@ -559,9 +601,11 @@ namespace etl
     //*********************************************************************
     void assign(const_pointer other, size_t length_)
     {
-      length_ = std::min(length_, CAPACITY);
-
       initialise();
+
+      is_truncated = (length_ > CAPACITY);
+
+      length_ = std::min(length_, CAPACITY);
 
       etl::copy_n(other, length_, begin());
 
@@ -592,6 +636,8 @@ namespace etl
       }
 
       p_buffer[current_size] = 0;
+
+      is_truncated = (first != last);
     }
 
     //*********************************************************************
@@ -603,6 +649,8 @@ namespace etl
     void assign(size_t n, T value)
     {
       initialise();
+
+      is_truncated = (n > CAPACITY);
 
       n = std::min(n, CAPACITY);
 
@@ -629,7 +677,7 @@ namespace etl
       if (current_size != CAPACITY)
       {
         p_buffer[current_size++] = value;
-        is_truncated = false;
+        p_buffer[current_size]   = 0;
       }
       else
       {
@@ -656,6 +704,12 @@ namespace etl
     ibasic_string& append(const ibasic_string& str)
     {
       insert(end(), str.begin(), str.end());
+
+      if (str.truncated())
+      {
+        is_truncated = true;
+      }
+
       return *this;
     }
 
@@ -670,6 +724,7 @@ namespace etl
       ETL_ASSERT(subposition <= str.size(), ETL_ERROR(string_out_of_bounds));
 
       insert(size(), str, subposition, sublength);
+
       return *this;
     }
 
@@ -724,8 +779,6 @@ namespace etl
     //*********************************************************************
     iterator insert(const_iterator position, T value)
     {
-      is_truncated = false;
-
       // Quick hack, as iterators are pointers.
       iterator insert_position = const_cast<iterator>(position);
 
@@ -772,8 +825,6 @@ namespace etl
     //*********************************************************************
     void insert(const_iterator position, size_t n, T value)
     {
-      is_truncated = false;
-
       if (n == 0)
       {
         return;
@@ -784,15 +835,20 @@ namespace etl
       const size_t start = std::distance(cbegin(), position);
 
       // No effect.
-      if (start == CAPACITY)
+      if (start >= CAPACITY)
       {
+        is_truncated = true;
         return;
       }
 
       // Fills the string to the end?
       if ((start + n) >= CAPACITY)
       {
-        is_truncated = ((current_size + n) > CAPACITY);
+        if ((current_size + n) > CAPACITY)
+        {
+          is_truncated = true;
+        }
+
         current_size = CAPACITY;
         std::fill(insert_position, end(), value);
       }
@@ -833,8 +889,6 @@ namespace etl
     template <class TIterator>
     void insert(iterator position, TIterator first, TIterator last)
     {
-      is_truncated = false;
-
       if (first == last)
       {
         return;
@@ -844,15 +898,20 @@ namespace etl
       const size_t n = std::distance(first, last);
 
       // No effect.
-      if (start == CAPACITY)
+      if (start >= CAPACITY)
       {
+        is_truncated = true;
         return;
       }
 
       // Fills the string to the end?
       if ((start + n) >= CAPACITY)
       {
-        is_truncated = ((current_size + n) > CAPACITY);
+        if (((current_size + n) > CAPACITY))
+        {
+          is_truncated = true;
+        }
+
         current_size = CAPACITY;
 
         while (position != end())
@@ -901,6 +960,12 @@ namespace etl
       ETL_ASSERT(position <= size(), ETL_ERROR(string_out_of_bounds));
 
       insert(begin() + position, str.cbegin(), str.cend());
+
+      if (str.truncated())
+      {
+        is_truncated = true;
+      }
+
       return *this;
     }
 
@@ -922,6 +987,12 @@ namespace etl
       }
 
       insert(begin() + position, str.cbegin() + subposition, str.cbegin() + subposition + sublength);
+
+      if (str.truncated())
+      {
+        is_truncated = true;
+      }
+
       return *this;
     }
 
@@ -1010,6 +1081,7 @@ namespace etl
 
       current_size -= n_delete;
       p_buffer[current_size] = 0;
+      cleanup();
 
       return first;
     }
@@ -1030,6 +1102,11 @@ namespace etl
     //*********************************************************************
     size_t copy(pointer s, size_t len, size_t pos = 0)
     {
+      if ((pos + len > size()))
+      {
+        is_truncated = true;
+      }
+
       size_t endpos = std::min(pos + len, size());
 
       for (size_t i = pos; i < endpos; ++i)
@@ -1303,6 +1380,11 @@ namespace etl
       // Insert the new stuff.
       insert(first_, str.begin(), str.end());
 
+      if (str.truncated())
+      {
+        is_truncated = true;
+      }
+
       return *this;
     }
 
@@ -1323,6 +1405,11 @@ namespace etl
 
       // Insert the new stuff.
       insert(position, str, subposition, sublength);
+
+      if (str.truncated())
+      {
+        is_truncated = true;
+      }
 
       return *this;
     }
@@ -1854,8 +1941,18 @@ namespace etl
     {
       if (&rhs != this)
       {
-        assign(rhs.cbegin(), rhs.cend());
+        assign(rhs);
       }
+
+      return *this;
+    }
+
+    //*************************************************************************
+    /// Assignment operator.
+    //*************************************************************************
+    ibasic_string& operator = (const_pointer rhs)
+    {
+      assign(rhs);
 
       return *this;
     }
@@ -1865,10 +1962,7 @@ namespace etl
     //*************************************************************************
     ibasic_string& operator += (const ibasic_string& rhs)
     {
-      if (&rhs != this)
-      {
-        append(rhs);
-      }
+      append(rhs);
 
       return *this;
     }
@@ -1876,7 +1970,7 @@ namespace etl
     //*************************************************************************
     /// += operator.
     //*************************************************************************
-    ibasic_string& operator += (const T* rhs)
+    ibasic_string& operator += (const_pointer rhs)
     {
       append(rhs);
 
@@ -1917,7 +2011,9 @@ namespace etl
     void initialise()
     {
       current_size = 0;
+      cleanup();
       p_buffer[0] = 0;
+      is_truncated = false;
     }
 
     //*************************************************************************
@@ -1970,9 +2066,25 @@ namespace etl
       }
     }
 
-    // Disable copy construction.
+    //*************************************************************************
+    /// Clear the unused trailing portion of the string.
+    //*************************************************************************
+    void cleanup()
+    {
+      if (is_secure())
+      {
+        etl::memory_clear_range(&p_buffer[current_size], &p_buffer[CAPACITY]);
+      }
+    }
+
+    //*************************************************************************
+    /// Disable copy construction.
+    //*************************************************************************
     ibasic_string(const ibasic_string&);
 
+    //*************************************************************************
+    /// Pointer to the string's buffer.
+    //*************************************************************************
     T* p_buffer;
 
     //*************************************************************************
@@ -1980,15 +2092,17 @@ namespace etl
     //*************************************************************************
 #if defined(ETL_POLYMORPHIC_STRINGS) || defined(ETL_POLYMORPHIC_CONTAINERS)
   public:
-    virtual ~ibasic_string()
-    {
-    }
+    virtual
 #else
   protected:
+#endif
     ~ibasic_string()
     {
+      if (is_secure())
+      {
+        initialise();
+      }
     }
-#endif
   };
 
   //***************************************************************************

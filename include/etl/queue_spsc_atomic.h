@@ -34,6 +34,8 @@ SOFTWARE.
 #include <stddef.h>
 #include <stdint.h>
 
+#include <new>
+
 #include "platform.h"
 #include "alignment.h"
 #include "parameter_type.h"
@@ -43,8 +45,6 @@ SOFTWARE.
 
 #undef ETL_FILE
 #define ETL_FILE "47"
-
-#define ETL_QUEUE_ATOMIC_FORCE_CPP03 0
 
 namespace etl
 {
@@ -224,7 +224,7 @@ namespace etl
       return false;
     }
 
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL) && !ETL_QUEUE_ATOMIC_FORCE_CPP03
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_QUEUE_ATOMIC_FORCE_CPP03)
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
     /// If asserts or exceptions are enabled, throws an etl::queue_full if the queue if already full.
@@ -469,6 +469,8 @@ namespace etl
     /// The uninitialised buffer of T used in the queue_spsc.
     typename etl::aligned_storage<sizeof(T), etl::alignment_of<T>::value>::type buffer[RESERVED_SIZE];
   };
-};
+}
+
+#undef ETL_FILE
 
 #endif

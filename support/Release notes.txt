@@ -1,6 +1,253 @@
 ===============================================================================
+14.34.0
+Fix alternate STL utility.h for ARM6
+Added ARM7 profiles.
+
+===============================================================================
+14.33.0
+Updated unit tests to C++17
+
+===============================================================================
+14.32.0
+Added Platform IO example
+
+===============================================================================
+14.31.2
+More PIO json tweaks
+
+===============================================================================
+14.31.1
+Fix error in PIO json
+
+===============================================================================
+14.31.0
+Removed C timer library
+
+===============================================================================
+14.30.0
+Allow conan's etl version metadata to automatically update via git tags
+
+===============================================================================
+14.29.4
+Fixed unordered_map iterator operator* return type
+
+===============================================================================
+14.29.3
+Minor updatess for etl::delegate
+
+===============================================================================
+14.29.2
+Fixed incorrect results returned from pointers for atomic_gcc_sync
+
+===============================================================================
+14.29.1
+Added #include "stl/utility.h" to etl::optional
+
+===============================================================================
+14.29.0
+Added const parameters and ETL_CONST_EXPR to etl::array_view
+
+===============================================================================
+14.28.3
+Removed redundant etl::const_array_view
+
+===============================================================================
+14.28.2
+Various fixes.
+void assign(const_pointer, size_t) did not set the truncation flag.
+Fixed resize(0) error for etl::forward_list
+Removed erroneous pointers in etl::unordered_map::begin()
+
+===============================================================================
+14.28.1
+Optimisation of floating point specialisations of etl::cumulative_moving_average.
+
+===============================================================================
+14.28.0
+Added runtime sample size specialisations to etl::cumulative_moving_average.
+
+===============================================================================
+14.27.1
+Removed ETL_IF_CONSTEXPR from etl::message_timer 'tick()'
+
+===============================================================================
+14.27.0
+ETL's random number generators are now non-polymorphic by default.
+Define ETL_POLYMORPHIC_RANDOM to enable previous functionality.
+
+===============================================================================
+14.26.8
+Moved global operators to ETL namespace.
+
+===============================================================================
+14.26.7
+Compatibility changes for GCC v5.4.
+
+===============================================================================
+14.26.6
+Added variadic parameters to observer notification.
+
+===============================================================================
+14.26.5
+Fixed misplaced semicolon in error_handler.h
+
+===============================================================================
+14.26.4
+FSM test example fix.
+
+===============================================================================
+14.26.3
+A few small optimisations to binary.h
+
+===============================================================================
+14.26.2
+Added #include <new> to files using 'placement new'.
+
+===============================================================================
+14.26.1
+Simplified 'to_string' templates.
+
+===============================================================================
+14.26.0
+Simplified message framework internal code.
+Additional receive() virtual function overload taking destination id.
+Removed is_bus() member function.
+
+===============================================================================
+14.25.0
+Added variadic template versions of etl::largest, etl::largest_type,
+etl::largest_alignment and etl::smallest
+
+===============================================================================
+14.24.2
+Fixed bug in 'vector of pointers' move constructor.
+
+===============================================================================
+14.24.1
+Added compile time functor version of 'create()'.
+
+===============================================================================
+14.24.0
+Added 'delegate' and 'delegate_service'.
+
+===============================================================================
+14.23.1
+Added missing 'cleanup' to string's resize() method.
+
+===============================================================================
+14.23.0
+Added an optional secure mode to strings so that unused space will be cleared to zero
+and also cleared on destruction.
+
+===============================================================================
+14.22.1
+Modified memory functions so that they will not be optimised away.
+
+===============================================================================
+14.22.0
+Added etl::memory_clear and etl::memory_set utility functions.
+These functions will overwrite the memory allocated to the supplied object.
+
+===============================================================================
+14.21.0
+Added variadic min and max functions.
+etl::multimin
+etl::multimin_compare
+etl::multimin_iter
+etl::multimin_iter_compare
+etl::multimax
+etl::multimax_compare
+etl::multimax_iter
+etl::multimax_iter_compare
+C++11 only.
+
+===============================================================================
+14.20.0
+Added etl::multi_array for multi-dimensional arrays.
+C++11 only.
+
+===============================================================================
+14.19.0
+Added 'emplace' to etl::optional.
+C++03 & C++11 variants supplied depending on compiler support.
+
+===============================================================================
+14.18.4
+Fixed bug in fractional part for floating point with leading zeros after the decimal point.
+
+===============================================================================
+14.18.3
+Unified 'to string' API.
+
+===============================================================================
+14.18.2
+Finalised 'to string'.
+
+===============================================================================
+14.18.1
+Changed etl::format_sepc template to etl::basic_firmat_spec.
+Created individual format_spec typedefs for each string type.
+
+===============================================================================
+14.18.0
+Added etl::to_string, etl::to_wstring, etl::to_u16string and etl::to_u32string
+plus formating support for integrals.
+
+===============================================================================
+14.17.0
+Added C++11 variadic templates for etl::observer.
+
+===============================================================================
+14.16.0
+Added C++11 variadic templates for etl::visitable and etl::visitor.
+
+===============================================================================
+14.15.0
+Added external buffer support for vector.
+
+===============================================================================
+14.14.2
+Modified 'truncated' to only be cleared on 'clear()' or 'assign()'.
+Added assignment from zero terminated string pointer.
+
+===============================================================================
+14.14.1
+Fixed bug where 'truncated' was not always set correctly for strings.
+
+===============================================================================
+14.14.0
+Fixed string push_back() bug where the internal terminator was not updated.
+Basic Conan package added.
+Added const ref istring constructors.
+Updated profiles for C++17.
+
+===============================================================================
+14.13.1
+Modified etl::queue_spsc_locked parameters to 'const'.
+
+===============================================================================
+14.13.0
+Added etl::queue_spsc_locked with injected locking functions.
+
+===============================================================================
+14.12.0
+Enabled emplace functions for 'No STL'.
+
+===============================================================================
+14.11.3
+Moved C++03 force macros to test profile.
+
+===============================================================================
+14.11.2
+Fix inconsistent ETL_FILE definitions.
+
+===============================================================================
+14.11.1
+Fix 'force C++03' macros leftover from testing.
+
+===============================================================================
 14.11.0
-Added 
+Added rvalue reference interfaces to forward_list.
 
 ===============================================================================
 14.10.2

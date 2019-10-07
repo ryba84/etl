@@ -33,6 +33,8 @@ SOFTWARE.
 
 #include <stddef.h>
 
+#include <new>
+
 #include "platform.h"
 
 #include "stl/algorithm.h"
@@ -290,6 +292,8 @@ namespace etl
       return max_size() - p_node_pool->size();
     }
 
+  protected:
+
     //*************************************************************************
     /// Is the list a trivial length?
     //*************************************************************************
@@ -297,8 +301,6 @@ namespace etl
     {
       return (size() < 2);
     }
-
-  protected:
 
     //*************************************************************************
     /// Get the head node.
@@ -867,7 +869,7 @@ namespace etl
     }
 #endif
 
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT)
     //*************************************************************************
     /// Emplaces a value to the front of the list.
     //*************************************************************************
@@ -952,7 +954,7 @@ namespace etl
       ETL_INCREMENT_DEBUG_COUNT
       insert_node(get_head(), *p_data_node);
     }
-#endif // ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#endif
 
     //*************************************************************************
     /// Removes a value from the front of the list.
@@ -993,7 +995,7 @@ namespace etl
     //*************************************************************************
     /// Emplaces a value to the back of the list.
     //*************************************************************************
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT)
     template <typename ... Args>
     void emplace_back(Args && ... args)
     {
@@ -1063,7 +1065,7 @@ namespace etl
       ETL_INCREMENT_DEBUG_COUNT
       insert_node(terminal_node, *p_data_node);
     }
-#endif // ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#endif
 
     //*************************************************************************
     /// Removes a value from the back of the list.
@@ -1108,7 +1110,7 @@ namespace etl
     //*************************************************************************
     /// Emplaces a value to the list at the specified position.
     //*************************************************************************
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT)
     template <typename ... Args>
     iterator emplace(iterator position, Args && ... args)
     {
@@ -1178,7 +1180,7 @@ namespace etl
 
       return iterator(*p_data_node);
     }
-#endif // ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#endif
 
     //*************************************************************************
     /// Inserts 'n' copies of a value to the list at the specified position.
@@ -1257,8 +1259,13 @@ namespace etl
     {
       ETL_ASSERT(n <= MAX_SIZE, ETL_ERROR(list_full));
 
+      // Zero?
+      if (n == 0U)
+      {
+        clear();
+      }
       // Smaller?
-      if (n < size())
+      else if (n < size())
       {
         iterator i_start = end();
         std::advance(i_start, -difference_type(size() - n));
@@ -2244,85 +2251,85 @@ namespace etl
       this->set_node_pool(pool);
     }
   };
-}
 
-//*************************************************************************
-/// Equal operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator ==(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return (lhs.size() == rhs.size()) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
-}
+  //*************************************************************************
+  /// Equal operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator ==(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return (lhs.size() == rhs.size()) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+  }
 
-//*************************************************************************
-/// Not equal operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator !=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return !(lhs == rhs);
-}
+  //*************************************************************************
+  /// Not equal operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator !=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return !(lhs == rhs);
+  }
 
-//*************************************************************************
-/// Less than operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the first list is lexicographically less than the
-/// second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator <(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return std::lexicographical_compare(lhs.begin(),
-    lhs.end(),
-    rhs.begin(),
-    rhs.end());
-}
+  //*************************************************************************
+  /// Less than operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the first list is lexicographically less than the
+  /// second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator <(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return std::lexicographical_compare(lhs.begin(),
+      lhs.end(),
+      rhs.begin(),
+      rhs.end());
+  }
 
-//*************************************************************************
-/// Greater than operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the first list is lexicographically greater than the
-/// second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator >(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return (rhs < lhs);
-}
+  //*************************************************************************
+  /// Greater than operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the first list is lexicographically greater than the
+  /// second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator >(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return (rhs < lhs);
+  }
 
-//*************************************************************************
-/// Less than or equal operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the first list is lexicographically less than or equal
-/// to the second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator <=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return !(lhs > rhs);
-}
+  //*************************************************************************
+  /// Less than or equal operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the first list is lexicographically less than or equal
+  /// to the second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator <=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return !(lhs > rhs);
+  }
 
-//*************************************************************************
-/// Greater than or equal operator.
-///\param lhs Reference to the first list.
-///\param rhs Reference to the second list.
-///\return <b>true</b> if the first list is lexicographically greater than or
-/// equal to the second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator >=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
-{
-  return !(lhs < rhs);
+  //*************************************************************************
+  /// Greater than or equal operator.
+  ///\param lhs Reference to the first list.
+  ///\param rhs Reference to the second list.
+  ///\return <b>true</b> if the first list is lexicographically greater than or
+  /// equal to the second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator >=(const etl::ilist<T>& lhs, const etl::ilist<T>& rhs)
+  {
+    return !(lhs < rhs);
+  }
 }
 
 #include "private/minmax_pop.h"

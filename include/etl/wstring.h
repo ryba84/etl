@@ -55,6 +55,9 @@ namespace etl
   {
   public:
 
+    typedef iwstring base_type;
+    typedef iwstring interface_type;
+    
     typedef iwstring::value_type value_type;
 
     static const size_t MAX_SIZE = MAX_SIZE_;
@@ -75,8 +78,17 @@ namespace etl
     wstring(const etl::wstring<MAX_SIZE_>& other)
       : iwstring(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
-      wstring::initialise();
-      wstring::assign(other.begin(), other.end());
+      this->assign(other);
+    }
+
+    //*************************************************************************
+    /// From other iwstring.
+    ///\param other The other iwstring.
+    //*************************************************************************
+    wstring(const etl::iwstring& other)
+      : iwstring(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
+    {
+      this->assign(other);
     }
 
 
@@ -86,16 +98,17 @@ namespace etl
     ///\param position The position of the first character.
     ///\param length   The number of characters. Default = npos.
     //*************************************************************************
-    wstring(const etl::wstring<MAX_SIZE_>& other, size_t position, size_t length_ = npos)
+    wstring(const etl::iwstring& other, size_t position, size_t length_ = npos)
       : iwstring(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       ETL_ASSERT(position < other.size(), ETL_ERROR(string_out_of_bounds));
 
-      // Set the length to the exact amount.
-      length_ = (length_ > MAX_SIZE_) ? MAX_SIZE_ : length_;
-
-      this->initialise();
       this->assign(other.begin() + position, other.begin() + position + length_);
+
+      if (other.truncated())
+      {
+        this->is_truncated = true;
+      }
     }
 
     //*************************************************************************
@@ -105,7 +118,6 @@ namespace etl
     wstring(const value_type* text)
       : iwstring(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
-      this->initialise();
       this->assign(text, text + etl::char_traits<value_type>::length(text));
     }
 
@@ -117,7 +129,6 @@ namespace etl
     wstring(const value_type* text, size_t count)
       : iwstring(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
-      this->initialise();
       this->assign(text, text + count);
     }
 
@@ -185,8 +196,18 @@ namespace etl
     {
       if (&rhs != this)
       {
-        this->assign(rhs.cbegin(), rhs.cend());
+        this->assign(rhs);
       }
+
+      return *this;
+    }
+
+    //*************************************************************************
+    /// Assignment operator.
+    //*************************************************************************
+    wstring& operator = (const value_type* text)
+    {
+      this->assign(text);
 
       return *this;
     }

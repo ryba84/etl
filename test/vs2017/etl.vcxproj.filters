@@ -52,12 +52,6 @@
     <Filter Include="ETL\Profiles">
       <UniqueIdentifier>{0a77d88b-f9f0-456a-be4b-c0a0ce6b437b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ECL">
-      <UniqueIdentifier>{1fdf39d9-079e-4404-a24a-6d5cb30def6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ECL">
-      <UniqueIdentifier>{4ac80fd1-3eca-4775-8695-eb1ea39c93f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ETL\Containers\Generators">
       <UniqueIdentifier>{e4a699ae-e7f3-418e-bf9f-211c21f7f4b2}</UniqueIdentifier>
     </Filter>
@@ -78,6 +72,9 @@
     </Filter>
     <Filter Include="ETL\STL\Alternate">
       <UniqueIdentifier>{0d093ee6-686c-4c9e-856e-bdf7075ff7a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ETL\Strings">
+      <UniqueIdentifier>{da88d71d-e5ea-4c26-9807-94616d31addb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -297,18 +294,6 @@
     <ClInclude Include="..\..\include\etl\platform.h">
       <Filter>ETL\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\etl\basic_string.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\u16string.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\u32string.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\wstring.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\etl\private\pvoidvector.h">
       <Filter>ETL\Private</Filter>
     </ClInclude>
@@ -322,9 +307,6 @@
       <Filter>ETL\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\intrusive_queue.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\cstring.h">
       <Filter>ETL\Containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\unordered_multimap.h">
@@ -465,16 +447,10 @@
     <ClInclude Include="..\..\include\etl\atomic\atomic_arm.h">
       <Filter>ETL\Utilities\Atomic</Filter>
     </ClInclude>
-    <ClInclude Include="..\ecl_user.h">
-      <Filter>Source Files\ECL</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\etl\variant_pool.h">
       <Filter>ETL\Containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\array_view.h">
-      <Filter>ETL\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\string_view.h">
       <Filter>ETL\Containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\array_wrapper.h">
@@ -485,9 +461,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\etl\version.h">
       <Filter>ETL\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\etl\c\ecl_timer.h">
-      <Filter>ECL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\etl\atomic\atomic_std.h">
       <Filter>ETL\Utilities\Atomic</Filter>
@@ -728,6 +701,72 @@
     </ClInclude>
     <ClInclude Include="..\..\include\etl\frame_check_sequence.h">
       <Filter>ETL\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\queue_spsc_locked.h">
+      <Filter>ETL\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\negative.h">
+      <Filter>ETL\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\private\to_string_helper.h">
+      <Filter>ETL\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\multi_array.h">
+      <Filter>ETL\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\delegate.h">
+      <Filter>ETL\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\delegate_service.h">
+      <Filter>ETL\Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\cstring.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\string_view.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\u16string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\u32string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\wstring.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\to_string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\to_u16string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\to_u32string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\to_wstring.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\wformat_spec.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\u32format_spec.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\u16format_spec.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\format_spec.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\basic_format_spec.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\basic_string.h">
+      <Filter>ETL\Strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\macros.h">
+      <Filter>ETL\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1022,12 +1061,6 @@
     <ClCompile Include="..\test_xor_rotate_checksum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\c\ecl_timer.c">
-      <Filter>ECL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\test_c_timer_framework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\test_atomic_std.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1154,6 +1187,42 @@
     <ClCompile Include="..\test_callback_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\test_queue_spsc_locked.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_queue_spsc_locked_small.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_to_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_vector_external_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_vector_pointer_external_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_to_wstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_to_u16string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_to_u32string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_multi_array.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_delegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_delegate_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_compiler_settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\library.properties">
@@ -1193,6 +1262,9 @@
       <Filter>Resource Files\Generators</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="..\..\library.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\include\etl\file_error_numbers.txt">
@@ -1206,6 +1278,9 @@
     </Text>
     <Text Include="..\CMakeLists.txt">
       <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\..\todo.txt">
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

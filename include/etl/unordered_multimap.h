@@ -33,6 +33,8 @@ SOFTWARE.
 
 #include <stddef.h>
 
+#include <new>
+
 #include "platform.h"
 
 #include "stl/algorithm.h"
@@ -241,7 +243,7 @@ namespace etl
       }
 
       //*********************************
-      std::pair<const TKey, T> operator *()
+      reference operator *()
       {
         return inode->key_value_pair;
       }

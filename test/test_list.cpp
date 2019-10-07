@@ -337,6 +337,19 @@ namespace
     }
 
     //*************************************************************************
+    TEST_FIXTURE(SetupFixture, test_resize_zero)
+    {
+      const size_t INITIAL_SIZE = 4;
+      const size_t NEW_SIZE = 0;
+      const ItemNDC VALUE = ItemNDC("1");
+
+      DataNDC data(INITIAL_SIZE, VALUE);
+      data.resize(NEW_SIZE, VALUE);
+
+      CHECK_EQUAL(data.size(), NEW_SIZE);
+    }
+
+    //*************************************************************************
     TEST_FIXTURE(SetupFixture, test_clear)
     {
       DataNDC data(sorted_data.begin(), sorted_data.end());
@@ -1175,8 +1188,8 @@ namespace
       CompareData compare_data(sorted_data.begin(), sorted_data.end());
       DataNDC data(sorted_data.begin(), sorted_data.end());
 
-      compare_data.remove_if(std::bind2nd(std::equal_to<ItemNDC>(), ItemNDC("7")));
-      data.remove_if(std::bind2nd(std::equal_to<ItemNDC>(), ItemNDC("7")));
+      compare_data.remove_if(std::bind(std::equal_to<ItemNDC>(), std::placeholders::_1, ItemNDC("7")));
+      data.remove_if(std::bind(std::equal_to<ItemNDC>(), std::placeholders::_1, ItemNDC("7")));
 
       CHECK_EQUAL(compare_data.size(), data.size());
 

@@ -33,6 +33,8 @@ SOFTWARE.
 
 #include <stddef.h>
 
+#include <new>
+
 #include "platform.h"
 
 #include "stl/algorithm.h"
@@ -242,7 +244,7 @@ namespace etl
       }
 
       //*********************************
-      std::pair<const TKey, T> operator *()
+      reference operator *()
       {
         return inode->key_value_pair;
       }
@@ -514,7 +516,7 @@ namespace etl
     //*********************************************************************
     local_iterator begin(size_t i)
     {
-      return (*pbuckets)[i].begin();
+      return pbuckets[i].begin();
     }
 
     //*********************************************************************
@@ -523,7 +525,7 @@ namespace etl
     //*********************************************************************
     local_const_iterator begin(size_t i) const
     {
-      return (*pbuckets)[i].cbegin();
+      return pbuckets[i].cbegin();
     }
 
     //*********************************************************************
@@ -532,7 +534,7 @@ namespace etl
     //*********************************************************************
     local_const_iterator cbegin(size_t i) const
     {
-      return (*pbuckets)[i].cbegin();
+      return pbuckets[i].cbegin();
     }
 
     //*********************************************************************
@@ -568,7 +570,7 @@ namespace etl
     //*********************************************************************
     local_iterator end(size_t i)
     {
-      return (*pbuckets)[i].end();
+      return pbuckets[i].end();
     }
 
     //*********************************************************************
@@ -577,7 +579,7 @@ namespace etl
     //*********************************************************************
     local_const_iterator end(size_t i) const
     {
-      return (*pbuckets)[i].cend();
+      return pbuckets[i].cend();
     }
 
     //*********************************************************************
@@ -586,7 +588,7 @@ namespace etl
     //*********************************************************************
     local_const_iterator cend(size_t i) const
     {
-      return (*pbuckets)[i].cend();
+      return pbuckets[i].cend();
     }
 
     //*********************************************************************
@@ -606,7 +608,7 @@ namespace etl
     {
       size_t index = bucket(key);
 
-      return std::distance((*pbuckets)[index].begin(), (*pbuckets)[index].end());
+      return std::distance(pbuckets[index].begin(), pbuckets[index].end());
     }
 
     //*********************************************************************
@@ -1284,7 +1286,7 @@ namespace etl
       else
       {
         if (pbucket == first)
-        {         
+        {
           // We erased the first so, we need to search again from where we erased.
           while (first->empty())
           {

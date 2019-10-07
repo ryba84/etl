@@ -48,8 +48,6 @@ SOFTWARE.
 #undef ETL_FILE
 #define ETL_FILE "12"
 
-#define ETL_PRIORITY_QUEUE_FORCE_CPP03 1
-
 //*****************************************************************************
 ///\defgroup queue queue
 /// A priority queue with the capacity defined at compile time,
@@ -170,7 +168,7 @@ namespace etl
       std::push_heap(container.begin(), container.end(), compare);
     }
 
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL) && !ETL_PRIORITY_QUEUE_FORCE_CPP03
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_PRIORITY_QUEUE_FORCE_CPP03)
     //*************************************************************************
     /// Emplaces a value to the queue.
     /// If asserts or exceptions are enabled, throws an etl::priority_queue_full
@@ -255,7 +253,7 @@ namespace etl
       // Make elements in container into heap
       std::push_heap(container.begin(), container.end(), compare);
     }
-#endif // ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#endif
 
     //*************************************************************************
     /// Assigns values to the priority queue.

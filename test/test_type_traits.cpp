@@ -43,6 +43,20 @@ namespace std
 
 namespace
 {
+  struct TestData { };
+}
+
+namespace etl
+{
+  template <>
+  constexpr size_t size_of<TestData>()
+  {
+    return 20;
+  }
+}
+
+namespace
+{
   // A class to test non-fundamental types.
   struct Test
   {
@@ -727,5 +741,15 @@ namespace
 
     CHECK_EQUAL(1, v1);
     CHECK_EQUAL(2, v2);
+  }
+
+  //*************************************************************************
+  TEST(size_of)
+  {
+    CHECK_EQUAL(1, etl::size_of<void>());
+    CHECK_EQUAL(1, etl::size_of<char>());
+    CHECK_EQUAL(2, etl::size_of<short>());
+    CHECK_EQUAL(4, etl::size_of<int>());
+    CHECK_EQUAL(20, etl::size_of<TestData>());
   }
 }

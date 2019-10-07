@@ -101,22 +101,22 @@ namespace
 
   // Callback for 'unhandled'.
   etl::function_fp<size_t, unhandled> unhandled_callback;
-}
 
-//*****************************************************************************
-// Initialises the test results.
-//*****************************************************************************
-struct SetupFixture
-{
-  SetupFixture()
+  //*****************************************************************************
+  // Initialises the test results.
+  //*****************************************************************************
+  struct SetupFixture
   {
-    called_id        = UINT_MAX;
-    global_called    = false;
-    member1_called   = false;
-    member2_called   = false;
-    unhandled_called = false;
-  }
-};
+    SetupFixture()
+    {
+      called_id = UINT_MAX;
+      global_called = false;
+      member1_called = false;
+      member2_called = false;
+      unhandled_called = false;
+    }
+  };
+}
 
 namespace
 {

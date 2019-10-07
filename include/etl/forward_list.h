@@ -33,6 +33,8 @@ SOFTWARE.
 
 #include <stddef.h>
 
+#include <new>
+
 #include "platform.h"
 
 #include "stl/algorithm.h"
@@ -842,16 +844,20 @@ namespace etl
     {
       ETL_ASSERT(n <= MAX_SIZE, ETL_ERROR(forward_list_full));
 
-      size_t i = 0;
-      iterator i_node = begin();
-      iterator i_last_node;
-
-      if (empty())
+      if (n == 0U)
+      {
+        clear();
+      }
+      else if (empty())
       {
         assign(n, value);
       }
       else
       {
+        size_t i = 0;
+        iterator i_node = begin();
+        iterator i_last_node;
+
         // Find where we're currently at.
         while ((i < n) && (i_node != end()))
         {
@@ -1045,9 +1051,9 @@ namespace etl
         // Erase the ones in between.
         while (p_first != p_last)
         {
-          p_next = p_first->next;                               // Remember the next node.
+          p_next = p_first->next;                                 // Remember the next node.
           destroy_data_node(static_cast<data_node_t&>(*p_first)); // Destroy the pool object.
-          p_first = p_next;                                     // Move to the next node.
+          p_first = p_next;                                       // Move to the next node.
         }
 
         if (p_next == nullptr)
@@ -1066,7 +1072,8 @@ namespace etl
     }
 
     //*************************************************************************
-    /// Erases the value at the specified position.
+    /// Moves a range from one position to another within the list.
+    /// Moves a range at position 'first_before' to the position before 'to_before'.
     //*************************************************************************
     void move_after(const_iterator from_before, const_iterator to_before)
     {
@@ -1823,86 +1830,86 @@ namespace etl
       this->set_node_pool(pool);
     }
   };
-}
 
-//*************************************************************************
-/// Equal operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator ==(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return (lhs.size() == rhs.size()) &&
-    std::equal(lhs.begin(), lhs.end(), rhs.begin());
-}
+  //*************************************************************************
+  /// Equal operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator ==(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return (lhs.size() == rhs.size()) &&
+      std::equal(lhs.begin(), lhs.end(), rhs.begin());
+  }
 
-//*************************************************************************
-/// Not equal operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator !=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return !(lhs == rhs);
-}
+  //*************************************************************************
+  /// Not equal operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator !=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return !(lhs == rhs);
+  }
 
-//*************************************************************************
-/// Less than operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the first forward_list is lexicographically less than the
-/// second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator <(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return std::lexicographical_compare(lhs.begin(),
-    lhs.end(),
-    rhs.begin(),
-    rhs.end());
-}
+  //*************************************************************************
+  /// Less than operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the first forward_list is lexicographically less than the
+  /// second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator <(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return std::lexicographical_compare(lhs.begin(),
+      lhs.end(),
+      rhs.begin(),
+      rhs.end());
+  }
 
-//*************************************************************************
-/// Greater than operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the first forward_list is lexicographically greater than the
-/// second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator >(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return (rhs < lhs);
-}
+  //*************************************************************************
+  /// Greater than operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the first forward_list is lexicographically greater than the
+  /// second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator >(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return (rhs < lhs);
+  }
 
-//*************************************************************************
-/// Less than or equal operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the first forward_list is lexicographically less than or equal
-/// to the second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator <=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return !(lhs > rhs);
-}
+  //*************************************************************************
+  /// Less than or equal operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the first forward_list is lexicographically less than or equal
+  /// to the second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator <=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return !(lhs > rhs);
+  }
 
-//*************************************************************************
-/// Greater than or equal operator.
-///\param lhs Reference to the first forward_list.
-///\param rhs Reference to the second forward_list.
-///\return <b>true</b> if the first forward_list is lexicographically greater than or
-/// equal to the second, otherwise <b>false</b>.
-//*************************************************************************
-template <typename T>
-bool operator >=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
-{
-  return !(lhs < rhs);
+  //*************************************************************************
+  /// Greater than or equal operator.
+  ///\param lhs Reference to the first forward_list.
+  ///\param rhs Reference to the second forward_list.
+  ///\return <b>true</b> if the first forward_list is lexicographically greater than or
+  /// equal to the second, otherwise <b>false</b>.
+  //*************************************************************************
+  template <typename T>
+  bool operator >=(const etl::iforward_list<T>& lhs, const etl::iforward_list<T>& rhs)
+  {
+    return !(lhs < rhs);
+  }
 }
 
 #include "private/minmax_pop.h"

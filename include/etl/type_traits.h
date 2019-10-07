@@ -314,6 +314,13 @@ namespace etl
   template <typename T> struct is_trivially_copy_assignable : etl::is_pod<T> {};
 #endif
 
+#if ETL_CPP11_SUPPORTED
+  /// is_rvalue_reference
+  ///\ingroup type_traits
+  template <class T> struct is_rvalue_reference      : etl::false_type {};
+  template <class T> struct is_rvalue_reference<T&&> : etl::true_type {};
+#endif
+
   /// conditional
   ///\ingroup type_traits
   template <bool B, typename T, typename F>  struct conditional { typedef T type; };
@@ -335,7 +342,7 @@ namespace etl
   struct conditional_integral_constant<false, T, TRUE_VALUE, FALSE_VALUE>
   {
     ETL_STATIC_ASSERT(etl::is_integral<T>::value, "Not an integral type");
-    static const T value = FALSE_VALUE; 
+    static const T value = FALSE_VALUE;
   };
 
   /// make_signed
@@ -480,6 +487,27 @@ namespace etl
   ///\ingroup type_traits
   template <> struct alignment_of<void> : integral_constant <size_t, 0>{};
 
+#if ETL_CPP11_SUPPORTED
+
+  //***************************************************************************"
+  /// Template to determine if a type is one of a specified list.
+  ///\ingroup types
+  //***************************************************************************"
+  template <typename T, typename T1, typename... TRest>
+  struct is_one_of
+  {
+    static const bool value = etl::is_same<T, T1>::value ||
+                              etl::is_one_of<T, TRest...>::value;
+  };
+
+  template <typename T, typename T1>
+  struct is_one_of<T, T1>
+  {
+    static const bool value = etl::is_same<T, T1>::value;
+  };
+
+#else
+
   //***************************************************************************
   /// Template to determine if a type is one of a specified list.
   ///\ingroup types
@@ -511,6 +539,8 @@ namespace etl
         etl::is_same<T, T16>::value ||
         etl::is_same<T, T17>::value;
   };
+
+#endif
 
   //***************************************************************************
   // A set of templates to allow related types to be derived.
@@ -586,6 +616,23 @@ namespace etl
     typedef const type_t*       const_pointer;
     typedef const type_t* const const_pointer_const;
   };
+
+  //***************************************************************************
+  // size_of
+  //***************************************************************************
+#if ETL_CPP11_SUPPORTED
+  template <typename T>
+  constexpr size_t size_of()
+  {
+    return sizeof(T);
+  }
+
+  template <>
+  constexpr size_t size_of<void>()
+  {
+    return 1;
+  }
+#endif
 }
 
 #endif

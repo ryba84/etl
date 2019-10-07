@@ -176,6 +176,16 @@ namespace etl
     ///\tparam TNotification the notification type.
     ///\param n The notification.
     //*****************************************************************
+#if ETL_CPP11_SUPPORTED && !defined(ETL_OBSERVER_FORCE_CPP03)
+    template <typename... TNotification>
+    void notify_observers(TNotification... n)
+    {
+      for (auto observer : observer_list)
+      {
+        observer->notification(n...);
+      }
+    }
+#else
     template <typename TNotification>
     void notify_observers(TNotification n)
     {
@@ -184,18 +194,49 @@ namespace etl
         observer_list[i]->notification(n);
       }
     }
+#endif
+
 
   protected:
-      
+
     ~observable()
     {
     }
-	  
+
   private:
 
     /// The list of observers.
     Observer_List observer_list;
   };
+
+#if ETL_CPP11_SUPPORTED && !defined(ETL_OBSERVER_FORCE_CPP03)
+
+  //*****************************************************************
+  /// The observer class for N types.
+  ///\ingroup observer
+  //*****************************************************************
+  template <typename T1, typename... Types>
+  class observer : public observer<T1>, public observer<Types...>
+  {
+  public:
+
+    using observer<T1>::notification;
+    using observer<Types...>::notification;
+  };
+
+  //*****************************************************************
+  /// The specialised observer class for 1 type.
+  ///\ingroup observer
+  //*****************************************************************
+  template <typename T1>
+  class observer<T1>
+  {
+  public:
+
+    virtual void notification(T1) = 0;
+  };
+
+#else
 
   //*********************************************************************
   /// The observer interface for eight notification types.
@@ -355,6 +396,8 @@ namespace etl
     virtual ~observer() {}
     virtual void notification(T1) = 0;
   };
+
+#endif
 }
 
 #undef ETL_FILE

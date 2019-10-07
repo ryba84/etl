@@ -31,6 +31,8 @@ SOFTWARE.
 #ifndef ETL_FLAT_MAP_INCLUDED
 #define ETL_FLAT_MAP_INCLUDED
 
+#include <new>
+
 #include "platform.h"
 #include "reference_flat_map.h"
 #include "pool.h"
@@ -338,7 +340,7 @@ namespace etl
       return emplace(value.first, value.second);
     }
 
-#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT)
     //*************************************************************************
     /// Emplaces a value to the map.
     //*************************************************************************
@@ -501,7 +503,7 @@ namespace etl
       return result;
     }
 
-#endif // ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT) && !defined(ETL_NO_STL)
+#endif
 
     //*********************************************************************
     /// Erases an element.
