@@ -1125,9 +1125,12 @@ namespace etl
 #if defined(WIN32)
     SecureZeroMemory((PVOID)p, n);
 #elif defined(__STDC_LIB_EXT1__)
-    memset_s((void*)p, n, 0U, n);
+    memset_s((void*)p, n, 0, n);
 #else
-    memset((void*)p, 0U, n);
+    while (n--)
+    {
+      *p++ = 0;
+    }
 #endif
   }
 
@@ -1183,7 +1186,10 @@ namespace etl
 #if defined(__STDC_LIB_EXT1__)
     memset_s((void*)p, n, value, n);
 #else
-    memset((void*)p, value, n);
+    while (n--)
+    {
+      *p++ = value;
+    }
 #endif
   }
 
