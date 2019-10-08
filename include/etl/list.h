@@ -1805,6 +1805,28 @@ namespace etl
       join(terminal_node, terminal_node);
     }
 
+#if ETL_CPP11_SUPPORTED
+    //*************************************************************************
+    /// Move a forward list
+    //*************************************************************************
+    void move_container(ilist&& rhs)
+    {
+      if (&rhs != this)
+      {
+        this->initialise();
+
+        typename etl::ilist<T>::iterator itr = rhs.begin();
+        while (itr != rhs.end())
+        {
+          this->push_back(std::move(*itr));
+          ++itr;
+        }
+
+        rhs.initialise();
+      }
+    }
+#endif
+
   private:
 
     //*************************************************************************
@@ -1899,7 +1921,7 @@ namespace etl
       ::new (&(p_data_node->value)) T(std::move(value));
       ETL_INCREMENT_DEBUG_COUNT
 
-        return *p_data_node;
+      return *p_data_node;
     }
 #endif
 
@@ -2005,19 +2027,7 @@ namespace etl
     list(list&& other)
       : etl::ilist<T>(node_pool, MAX_SIZE, false)
     {
-      if (this != &other)
-      {
-        this->initialise();
-
-        typename etl::ilist<T>::iterator itr = other.begin();
-        while (itr != other.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        other.initialise();
-      }
+      this->move_container(std::move(other));
     }
 #endif
 
@@ -2061,19 +2071,7 @@ namespace etl
     //*************************************************************************
     list& operator = (list&& rhs)
     {
-      if (&rhs != this)
-      {
-        this->initialise();
-
-        typename etl::ilist<T>::iterator itr = rhs.begin();
-        while (itr != rhs.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        rhs.initialise();
-      }
+      this->move_container(std::move(rhs));
 
       return *this;
     }
@@ -2163,19 +2161,7 @@ namespace etl
     list(list&& other)
       : etl::ilist<T>(*other.p_node_pool, other.p_node_pool->max_size(), true)
     {
-      if (this != &other)
-      {
-        this->initialise();
-
-        typename etl::ilist<T>::iterator itr = other.begin();
-        while (itr != other.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        other.initialise();
-      }
+      this->move_container(std::move(other));
     }
 #endif
 
@@ -2219,19 +2205,7 @@ namespace etl
     //*************************************************************************
     list& operator = (list&& rhs)
     {
-      if (&rhs != this)
-      {
-        this->initialise();
-
-        typename etl::ilist<T>::iterator itr = rhs.begin();
-        while (itr != rhs.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        rhs.initialise();
-      }
+      this->move_container(std::move(rhs));
 
       return *this;
     }

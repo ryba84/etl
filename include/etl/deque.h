@@ -2026,6 +2026,28 @@ namespace etl
       _end   = iterator(_end.index,   *this, p_buffer);
     }
 
+#if ETL_CPP11_SUPPORTED
+    //*************************************************************************
+    /// Move a forward list
+    //*************************************************************************
+    void move_container(ideque&& rhs)
+    {
+      if (&rhs != this)
+      {
+        this->initialise();
+
+        typename etl::ideque<T>::iterator itr = rhs.begin();
+        while (itr != rhs.end())
+        {
+          this->push_back(std::move(*itr));
+          ++itr;
+        }
+
+        rhs.initialise();
+      }
+    }
+#endif
+
     iterator _begin;   ///Iterator to the _begin item in the deque.
     iterator _end;     ///Iterator to the _end item in the deque.
     pointer  p_buffer; ///The buffer for the deque.
@@ -2272,16 +2294,7 @@ namespace etl
     {
       if (this != &other)
       {
-        this->initialise();
-
-        typename etl::ideque<T>::iterator itr = other.begin();
-        while (itr != other.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        other.initialise();
+        this->move_container(std::move(other));
       }
     }
 #endif
@@ -2337,15 +2350,7 @@ namespace etl
     {
       if (&rhs != this)
       {
-        this->clear();
-        typename etl::ideque<T>::iterator itr = rhs.begin();
-        while (itr != rhs.end())
-        {
-          this->push_back(std::move(*itr));
-          ++itr;
-        }
-
-        rhs.initialise();
+        this->move_container(std::move(rhs));
       }
 
       return *this;
