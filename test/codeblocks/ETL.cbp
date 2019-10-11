@@ -272,6 +272,7 @@
 		<Unit filename="../../include/etl/profiles/cpp14_no_stl.h" />
 		<Unit filename="../../include/etl/profiles/cpp17.h" />
 		<Unit filename="../../include/etl/profiles/cpp17_no_stl.h" />
+		<Unit filename="../../include/etl/profiles/determine_compiler_version.h" />
 		<Unit filename="../../include/etl/profiles/etl_profile.h" />
 		<Unit filename="../../include/etl/profiles/gcc_generic.h" />
 		<Unit filename="../../include/etl/profiles/gcc_linux_x86.h" />

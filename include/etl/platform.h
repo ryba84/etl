@@ -60,7 +60,7 @@ SOFTWARE.
 #define ETL_PLATFORM_64BIT (UINT64_MAX == UINTPTR_MAX)
 
 #include "etl_profile.h"
-#include "../profiles/determine_compiler_version.h"
+#include "profiles/determine_compiler_version.h"
 
 // The macros below are dependent on the profile.
 
