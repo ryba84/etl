@@ -467,6 +467,7 @@
     <ClInclude Include="..\..\include\etl\profiles\clang_generic.h" />
     <ClInclude Include="..\..\include\etl\profiles\cpp17.h" />
     <ClInclude Include="..\..\include\etl\profiles\cpp17_no_stl.h" />
+    <ClInclude Include="..\..\include\etl\profiles\determine_compiler_version.h" />
     <ClInclude Include="..\..\include\etl\queue_spsc_locked.h" />
     <ClInclude Include="..\..\include\etl\scaled_rounding.h" />
     <ClInclude Include="..\..\include\etl\state_chart.h" />

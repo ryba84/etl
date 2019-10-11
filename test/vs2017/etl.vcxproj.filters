@@ -786,6 +786,9 @@
     <ClInclude Include="..\..\include\etl\stl\choose_namespace.h">
       <Filter>ETL\STL</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\etl\profiles\determine_compiler_version.h">
+      <Filter>ETL\Profiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">

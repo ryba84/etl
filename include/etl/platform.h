@@ -60,20 +60,13 @@ SOFTWARE.
 #define ETL_PLATFORM_64BIT (UINT64_MAX == UINTPTR_MAX)
 
 #include "etl_profile.h"
+#include "../profiles/determine_compiler_version.h"
 
 // The macros below are dependent on the profile.
 
 #if defined(ETL_COMPILER_MICROSOFT)
   // Disable warning of deprecated ETLSTD::iterator.
   #pragma warning(disable : 4996)
-#endif
-
-#if defined(ETL_COMPILER_GCC)
-  #define ETL_COMPILER_VERSION      __GNUC__
-  #define ETL_COMPILER_FULL_VERSION ((__GNUC__ * 10000) + (__GNUC_MINOR__ * 100) + __GNUC_PATCHLEVEL__)
-#elif defined ETL_COMPILER_MICROSOFT
-  #define ETL_COMPILER_VERSION      _MSC_VER
-  #define ETL_COMPILER_FULL_VERSION _MSC_FULL_VER
 #endif
 
 #if ETL_CPP11_SUPPORTED
