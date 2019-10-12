@@ -37,7 +37,8 @@ SOFTWARE.
     !defined(ETL_COMPILER_GREEN_HILLS) && \
     !defined(ETL_COMPILER_IAR) && \
     !defined(ETL_COMPILER_INTEL) && \
-    !defined(ETL_COMPILER_TEXAS_INSTRUMENTS)
+    !defined(ETL_COMPILER_TEXAS_INSTRUMENTS) && \
+    !defined(ETL_COMPILER_GENERIC)
 
   #if !defined(ETL_COMPILER_GCC)
     #if defined(__GNUC__)
@@ -67,6 +68,8 @@ SOFTWARE.
     #if defined(__TI_COMPILER_VERSION__)
       #define ETL_COMPILER_TEXAS_INSTRUMENTS
     #endif
+  #else
+    #define ETL_COMPILER_GENERIC
   #endif
 
 #endif
