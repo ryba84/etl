@@ -41,7 +41,7 @@ SOFTWARE.
   #elif defined(ETL_COMPILER_ARM)
     #define ETL_COMPILER_VERSION      __ARMCC_VERSION
     #define ETL_COMPILER_FULL_VERSION __ARMCC_VERSION
-  #elif defined(ETL_COMPILER_CLANG)defined(ETL_COMPILER_LLVM)
+  #elif defined(ETL_COMPILER_CLANG)
     #define ETL_COMPILER_VERSION      __clang_version__
     #define ETL_COMPILER_FULL_VERSION ((__clang_major__ * 10000) + (__clang_minor__ * 100) + __clang_patchlevel__)
   #elif defined(ETL_COMPILER_GREEN_HILLS)
