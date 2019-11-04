@@ -47,6 +47,7 @@ SOFTWARE.
 #include "exception.h"
 #include "integral_limits.h"
 #include "binary.h"
+#include "char_traits.h"
 
 #include "private/minmax_push.h"
 
