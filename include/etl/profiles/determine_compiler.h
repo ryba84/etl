@@ -34,6 +34,7 @@ SOFTWARE.
 #if !defined(ETL_COMPILER_GCC) && \
     !defined(ETL_COMPILER_MICROSOFT) && \
     !defined(ETL_COMPILER_ARM) && \
+    !defined(ETL_COMPILER_CLANG) && \
     !defined(ETL_COMPILER_GREEN_HILLS) && \
     !defined(ETL_COMPILER_IAR) && \
     !defined(ETL_COMPILER_INTEL) && \
@@ -51,6 +52,10 @@ SOFTWARE.
   #elif !defined(ETL_COMPILER_ARM)
     #if defined(__CC_ARM)
       #define ETL_COMPILER_ARM
+    #endif
+  #elif !defined(ETL_COMPILER_CLANG)
+    #if defined(__clang__) || defined(__llvm__)
+      #define ETL_COMPILER_CLANG
     #endif
   #elif !defined(ETL_COMPILER_GREEN_HILLS)
     #if defined(__ghs__)
