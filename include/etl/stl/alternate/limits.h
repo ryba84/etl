@@ -76,8 +76,8 @@ namespace etlstd
     static const bool is_exact;
 
     static const int radix;
-    static ETL_CONSTEXPR T epsilon() { return 0; }
-    static ETL_CONSTEXPR T round_error() { return 0; }
+    static ETL_CONSTEXPR_11 T epsilon() { return 0; }
+    static ETL_CONSTEXPR_11 T round_error() { return 0; }
 
     static const int digits;
     static const int digits10;
@@ -95,10 +95,10 @@ namespace etlstd
     static const float_denorm_style has_denorm;
     static const bool has_denorm_loss;
 
-    static ETL_CONSTEXPR T infinity() { return 0; }
-    static ETL_CONSTEXPR T quiet_NaN() { return 0; }
-    static ETL_CONSTEXPR T signaling_NaN() { return 0; }
-    static ETL_CONSTEXPR T denorm_min() { return 0; }
+    static ETL_CONSTEXPR_11 T infinity() { return 0; }
+    static ETL_CONSTEXPR_11 T quiet_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 T signaling_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 T denorm_min() { return 0; }
 
     static const bool is_iec559;
     static const bool is_bounded;
@@ -157,10 +157,10 @@ namespace etlstd
     static const bool is_bounded;
     static const bool is_modulo;
 
-    static ETL_CONSTEXPR T round_error() { return T(0.5); }
-    static ETL_CONSTEXPR T infinity() { return 0; }
-    static ETL_CONSTEXPR T quiet_NaN() { return 0; }
-    static ETL_CONSTEXPR T signaling_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 T round_error() { return T(0.5); }
+    static ETL_CONSTEXPR_11 T infinity() { return 0; }
+    static ETL_CONSTEXPR_11 T quiet_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 T signaling_NaN() { return 0; }
 
     static const bool traps;
     static const bool tinyness_before;
@@ -198,9 +198,9 @@ namespace etlstd
 
     static const bool is_specialized;
 
-    static ETL_CONSTEXPR bool min() { return false; }
-    static ETL_CONSTEXPR bool max() { return true; }
-    static ETL_CONSTEXPR bool lowest() { return false; }
+    static ETL_CONSTEXPR_11 bool min() { return false; }
+    static ETL_CONSTEXPR_11 bool max() { return true; }
+    static ETL_CONSTEXPR_11 bool lowest() { return false; }
 
     static const int digits;
     static const int digits10;
@@ -225,10 +225,10 @@ namespace etlstd
     static const float_denorm_style has_denorm;
     static const bool has_denorm_loss;
 
-    static ETL_CONSTEXPR bool infinity() { return 0; }
-    static ETL_CONSTEXPR bool quiet_NaN() { return 0; }
-    static ETL_CONSTEXPR bool signaling_NaN() { return 0; }
-    static ETL_CONSTEXPR bool denorm_min() { return 0; }
+    static ETL_CONSTEXPR_11 bool infinity() { return 0; }
+    static ETL_CONSTEXPR_11 bool quiet_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 bool signaling_NaN() { return 0; }
+    static ETL_CONSTEXPR_11 bool denorm_min() { return 0; }
 
     static const bool is_iec559;
     static const bool is_bounded;
@@ -270,9 +270,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR char min() { return CHAR_MIN; }
-    static ETL_CONSTEXPR char max() { return CHAR_MAX; }
-    static ETL_CONSTEXPR char lowest() { return CHAR_MIN; }
+    static ETL_CONSTEXPR_11 char min() { return CHAR_MIN; }
+    static ETL_CONSTEXPR_11 char max() { return CHAR_MAX; }
+    static ETL_CONSTEXPR_11 char lowest() { return CHAR_MIN; }
   };
 
   //***************************************************************************
@@ -282,9 +282,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR unsigned char min() { return 0; }
-    static ETL_CONSTEXPR unsigned char max() { return UCHAR_MAX; }
-    static ETL_CONSTEXPR unsigned char lowest() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned char min() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned char max() { return UCHAR_MAX; }
+    static ETL_CONSTEXPR_11 unsigned char lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -294,9 +294,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR signed char min() { return SCHAR_MIN; }
-    static ETL_CONSTEXPR signed char max() { return SCHAR_MAX; }
-    static ETL_CONSTEXPR signed char lowest() { return SCHAR_MIN; }
+    static ETL_CONSTEXPR_11 signed char min() { return SCHAR_MIN; }
+    static ETL_CONSTEXPR_11 signed char max() { return SCHAR_MAX; }
+    static ETL_CONSTEXPR_11 signed char lowest() { return SCHAR_MIN; }
   };
 
   //***************************************************************************
@@ -306,9 +306,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR char16_t min() { return 0; }
-    static ETL_CONSTEXPR char16_t max() { return UINT_LEAST16_MAX; }
-    static ETL_CONSTEXPR char16_t lowest() { return 0; }
+    static ETL_CONSTEXPR_11 char16_t min() { return 0; }
+    static ETL_CONSTEXPR_11 char16_t max() { return UINT_LEAST16_MAX; }
+    static ETL_CONSTEXPR_11 char16_t lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -318,9 +318,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR char32_t min() { return 0; }
-    static ETL_CONSTEXPR char32_t max() { return UINT_LEAST32_MAX; }
-    static ETL_CONSTEXPR char32_t lowest() { return 0; }
+    static ETL_CONSTEXPR_11 char32_t min() { return 0; }
+    static ETL_CONSTEXPR_11 char32_t max() { return UINT_LEAST32_MAX; }
+    static ETL_CONSTEXPR_11 char32_t lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -330,9 +330,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR wchar_t min() { return WCHAR_MIN; }
-    static ETL_CONSTEXPR wchar_t max() { return WCHAR_MAX; }
-    static ETL_CONSTEXPR wchar_t lowest() { return WCHAR_MIN; }
+    static ETL_CONSTEXPR_11 wchar_t min() { return WCHAR_MIN; }
+    static ETL_CONSTEXPR_11 wchar_t max() { return WCHAR_MAX; }
+    static ETL_CONSTEXPR_11 wchar_t lowest() { return WCHAR_MIN; }
   };
 
   //***************************************************************************
@@ -342,9 +342,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR short min() { return SHRT_MIN; }
-    static ETL_CONSTEXPR short max() { return SHRT_MAX; }
-    static ETL_CONSTEXPR short lowest() { return SHRT_MIN; }
+    static ETL_CONSTEXPR_11 short min() { return SHRT_MIN; }
+    static ETL_CONSTEXPR_11 short max() { return SHRT_MAX; }
+    static ETL_CONSTEXPR_11 short lowest() { return SHRT_MIN; }
   };
 
   //***************************************************************************
@@ -354,9 +354,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR unsigned short min() { return 0; }
-    static ETL_CONSTEXPR unsigned short max() { return USHRT_MAX; }
-    static ETL_CONSTEXPR unsigned short lowest() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned short min() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned short max() { return USHRT_MAX; }
+    static ETL_CONSTEXPR_11 unsigned short lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -366,9 +366,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR int min() { return INT_MIN; }
-    static ETL_CONSTEXPR int max() { return INT_MAX; }
-    static ETL_CONSTEXPR int lowest() { return INT_MIN; }
+    static ETL_CONSTEXPR_11 int min() { return INT_MIN; }
+    static ETL_CONSTEXPR_11 int max() { return INT_MAX; }
+    static ETL_CONSTEXPR_11 int lowest() { return INT_MIN; }
   };
 
   //***************************************************************************
@@ -378,9 +378,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR unsigned int min() { return 0; }
-    static ETL_CONSTEXPR unsigned int max() { return UINT_MAX; }
-    static ETL_CONSTEXPR unsigned int lowest() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned int min() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned int max() { return UINT_MAX; }
+    static ETL_CONSTEXPR_11 unsigned int lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -390,9 +390,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR long min() { return LONG_MIN; }
-    static ETL_CONSTEXPR long max() { return LONG_MAX; }
-    static ETL_CONSTEXPR long lowest() { return LONG_MIN; }
+    static ETL_CONSTEXPR_11 long min() { return LONG_MIN; }
+    static ETL_CONSTEXPR_11 long max() { return LONG_MAX; }
+    static ETL_CONSTEXPR_11 long lowest() { return LONG_MIN; }
   };
 
   //***************************************************************************
@@ -402,9 +402,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR unsigned long min() { return 0; }
-    static ETL_CONSTEXPR unsigned long max() { return ULONG_MAX; }
-    static ETL_CONSTEXPR unsigned long lowest() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned long min() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned long max() { return ULONG_MAX; }
+    static ETL_CONSTEXPR_11 unsigned long lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -414,9 +414,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR long long min() { return LLONG_MIN; }
-    static ETL_CONSTEXPR long long max() { return LLONG_MAX; }
-    static ETL_CONSTEXPR long long lowest() { return LLONG_MIN; }
+    static ETL_CONSTEXPR_11 long long min() { return LLONG_MIN; }
+    static ETL_CONSTEXPR_11 long long max() { return LLONG_MAX; }
+    static ETL_CONSTEXPR_11 long long lowest() { return LLONG_MIN; }
   };
 
   //***************************************************************************
@@ -426,9 +426,9 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR unsigned long long min() { return 0; }
-    static ETL_CONSTEXPR unsigned long long max() { return ULLONG_MAX; }
-    static ETL_CONSTEXPR unsigned long long lowest() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned long long min() { return 0; }
+    static ETL_CONSTEXPR_11 unsigned long long max() { return ULLONG_MAX; }
+    static ETL_CONSTEXPR_11 unsigned long long lowest() { return 0; }
   };
 
   //***************************************************************************
@@ -438,11 +438,11 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR float min() { return FLT_MIN; }
-    static ETL_CONSTEXPR float max() { return FLT_MAX; }
-    static ETL_CONSTEXPR float lowest() { return -FLT_MAX; }
-    static ETL_CONSTEXPR float epsilon() { return FLT_EPSILON; }
-    static ETL_CONSTEXPR float denorm_min() { return FLT_MIN; }
+    static ETL_CONSTEXPR_11 float min() { return FLT_MIN; }
+    static ETL_CONSTEXPR_11 float max() { return FLT_MAX; }
+    static ETL_CONSTEXPR_11 float lowest() { return -FLT_MAX; }
+    static ETL_CONSTEXPR_11 float epsilon() { return FLT_EPSILON; }
+    static ETL_CONSTEXPR_11 float denorm_min() { return FLT_MIN; }
 
     static const int digits;
     static const int digits10;
@@ -469,11 +469,11 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR double min() { return DBL_MIN; }
-    static ETL_CONSTEXPR double max() { return DBL_MAX; }
-    static ETL_CONSTEXPR double lowest() { return -DBL_MAX; }
-    static ETL_CONSTEXPR double epsilon() { return DBL_EPSILON; }
-    static ETL_CONSTEXPR double denorm_min() { return DBL_MIN; }
+    static ETL_CONSTEXPR_11 double min() { return DBL_MIN; }
+    static ETL_CONSTEXPR_11 double max() { return DBL_MAX; }
+    static ETL_CONSTEXPR_11 double lowest() { return -DBL_MAX; }
+    static ETL_CONSTEXPR_11 double epsilon() { return DBL_EPSILON; }
+    static ETL_CONSTEXPR_11 double denorm_min() { return DBL_MIN; }
 
     static const int digits;
     static const int digits10;
@@ -500,11 +500,11 @@ namespace etlstd
   {
   public:
 
-    static ETL_CONSTEXPR long double min() { return LDBL_MIN; }
-    static ETL_CONSTEXPR long double max() { return LDBL_MAX; }
-    static ETL_CONSTEXPR long double lowest() { return -LDBL_MAX; }
-    static ETL_CONSTEXPR long double epsilon() { return LDBL_EPSILON; }
-    static ETL_CONSTEXPR long double denorm_min() { return LDBL_MIN; }
+    static ETL_CONSTEXPR_11 long double min() { return LDBL_MIN; }
+    static ETL_CONSTEXPR_11 long double max() { return LDBL_MAX; }
+    static ETL_CONSTEXPR_11 long double lowest() { return -LDBL_MAX; }
+    static ETL_CONSTEXPR_11 long double epsilon() { return LDBL_EPSILON; }
+    static ETL_CONSTEXPR_11 long double denorm_min() { return LDBL_MIN; }
 
     static const int digits;
     static const int digits10;

@@ -77,29 +77,35 @@ SOFTWARE.
 #endif
 
 #if ETL_CPP11_SUPPORTED
-  #define ETL_CONSTEXPR constexpr
-#else
-  #define ETL_CONSTEXPR
-#endif
-
-#if ETL_CPP17_SUPPORTED
-  #define ETL_IF_CONSTEXPR constexpr
-#else
-  #define ETL_IF_CONSTEXPR
-#endif
-
-#if ETL_CPP11_SUPPORTED
+  #define ETL_CONSTEXPR_11 constexpr
   #define ETL_DELETE = delete
-#else
-  #define ETL_DELETE
-#endif
-
-#if ETL_CPP11_SUPPORTED
   #define ETL_NOEXCEPT noexcept
   #define ETL_NOEXCEPT_EXPR(expression) noexcept(expression)
 #else
+  #define ETL_CONSTEXPR_11
+  #define ETL_DELETE
   #define ETL_NOEXCEPT
   #define ETL_NOEXCEPT_EXPR(expression)
+
+
+#if ETL_CPP14_SUPPORTED
+  #define ETL_CONSTEXPR_14 constexpr
+#else
+  #define ETL_CONSTEXPR_14
+#endif
+
+#if ETL_CPP17_SUPPORTED
+  #define ETL_CONSTEXPR_17 constexpr
+  #define ETL_IF_CONSTEXPR constexpr
+#else
+  #define ETL_CONSTEXPR_17
+  #define ETL_IF_CONSTEXPR
+#endif
+
+#if ETL_CPP20_SUPPORTED
+  #define ETL_CONSTEXPR_20 constexpr
+#else
+  #define ETL_CONSTEXPR_20
 #endif
 
 #endif

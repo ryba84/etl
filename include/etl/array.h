@@ -141,7 +141,7 @@ namespace etl
     /// Returns a reference to the value at index 'i'.
     ///\param i The index of the element to access.
     //*************************************************************************
-    reference operator[](size_t i)
+    ETL_CONSTEXPR_11 reference operator[](size_t i)
     {
       return _buffer[i];
     }
@@ -151,7 +151,7 @@ namespace etl
     /// Returns a const reference to the value at index 'i'.
     ///\param i The index of the element to access.
     //*************************************************************************
-    const_reference operator[](size_t i) const
+    ETL_CONSTEXPR_11 const_reference operator[](size_t i) const
     {
       return _buffer[i];
     }
@@ -159,7 +159,7 @@ namespace etl
     //*************************************************************************
     /// Returns a reference to the first element.
     //*************************************************************************
-    reference front()
+    ETL_CONSTEXPR_11 reference front()
     {
       return _buffer[0];
     }
@@ -167,7 +167,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reference to the first element.
     //*************************************************************************
-    const_reference front() const
+    ETL_CONSTEXPR_11 const_reference front() const
     {
       return _buffer[0];
     }
@@ -175,7 +175,7 @@ namespace etl
     //*************************************************************************
     /// Returns a reference to the last element.
     //*************************************************************************
-    reference back()
+    ETL_CONSTEXPR_11 reference back()
     {
       return _buffer[SIZE - 1];
     }
@@ -183,7 +183,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reference to the last element.
     //*************************************************************************
-    const_reference back() const
+    ETL_CONSTEXPR_11 const_reference back() const
     {
       return _buffer[SIZE - 1];
     }
@@ -191,7 +191,7 @@ namespace etl
     //*************************************************************************
     /// Returns a pointer to the first element of the internal buffer.
     //*************************************************************************
-    pointer data()
+    ETL_CONSTEXPR_11 pointer data()
     {
       return &_buffer[0];
     }
@@ -199,7 +199,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const pointer to the first element of the internal buffer.
     //*************************************************************************
-    const_pointer data() const
+    ETL_CONSTEXPR_11 const_pointer data() const
     {
       return &_buffer[0];
     }
@@ -211,7 +211,7 @@ namespace etl
     //*************************************************************************
     /// Returns an iterator to the beginning of the array.
     //*************************************************************************
-    iterator begin()
+    ETL_CONSTEXPR_11 iterator begin()
     {
       return &_buffer[0];
     }
@@ -219,7 +219,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const iterator to the beginning of the array.
     //*************************************************************************
-    const_iterator begin() const
+    ETL_CONSTEXPR_11 const_iterator begin() const
     {
       return &_buffer[0];
     }
@@ -227,7 +227,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const iterator to the beginning of the array.
     //*************************************************************************
-    const_iterator cbegin() const
+    ETL_CONSTEXPR_11 const_iterator cbegin() const
     {
       return begin();
     }
@@ -235,7 +235,7 @@ namespace etl
     //*************************************************************************
     /// Returns an iterator to the end of the array.
     //*************************************************************************
-    iterator end()
+    ETL_CONSTEXPR_11 iterator end()
     {
       return &_buffer[SIZE];
     }
@@ -243,7 +243,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const iterator to the end of the array.
     //*************************************************************************
-    const_iterator end() const
+    ETL_CONSTEXPR_11 const_iterator end() const
     {
       return &_buffer[SIZE];
     }
@@ -251,7 +251,7 @@ namespace etl
     //*************************************************************************
     // Returns a const iterator to the end of the array.
     //*************************************************************************
-    const_iterator cend() const
+    ETL_CONSTEXPR_11 const_iterator cend() const
     {
       return &_buffer[SIZE];
     }
@@ -259,7 +259,7 @@ namespace etl
     //*************************************************************************
     // Returns an reverse iterator to the reverse beginning of the array.
     //*************************************************************************
-    reverse_iterator rbegin()
+    ETL_CONSTEXPR_11 reverse_iterator rbegin()
     {
       return reverse_iterator(end());
     }
@@ -267,7 +267,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reverse iterator to the reverse beginning of the array.
     //*************************************************************************
-    const_reverse_iterator rbegin() const
+    ETL_CONSTEXPR_11 const_reverse_iterator rbegin() const
     {
       return const_reverse_iterator(end());
     }
@@ -275,7 +275,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reverse iterator to the reverse beginning of the array.
     //*************************************************************************
-    const_reverse_iterator crbegin() const
+    ETL_CONSTEXPR_11 const_reverse_iterator crbegin() const
     {
       return const_reverse_iterator(end());
     }
@@ -283,7 +283,7 @@ namespace etl
     //*************************************************************************
     /// Returns a reverse iterator to the end of the array.
     //*************************************************************************
-    reverse_iterator rend()
+    ETL_CONSTEXPR_11 reverse_iterator rend()
     {
       return reverse_iterator(begin());
     }
@@ -291,7 +291,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reverse iterator to the end of the array.
     //*************************************************************************
-    const_reverse_iterator rend() const
+    ETL_CONSTEXPR_11 const_reverse_iterator rend() const
     {
       return const_reverse_iterator(begin());
     }
@@ -299,7 +299,7 @@ namespace etl
     //*************************************************************************
     /// Returns a const reverse iterator to the end of the array.
     //*************************************************************************
-    const_reverse_iterator crend() const
+    ETL_CONSTEXPR_11 const_reverse_iterator crend() const
     {
       return const_reverse_iterator(begin());
     }
@@ -311,7 +311,7 @@ namespace etl
     //*************************************************************************
     /// Returns <b>true</b> if the array size is zero.
     //*************************************************************************
-    bool empty() const
+    ETL_CONSTEXPR_11 bool empty() const
     {
       return (SIZE == 0);
     }
@@ -319,7 +319,7 @@ namespace etl
     //*************************************************************************
     /// Returns the size of the array.
     //*************************************************************************
-    size_t size() const
+    ETL_CONSTEXPR_11 size_t size() const
     {
       return SIZE;
     }
@@ -327,7 +327,7 @@ namespace etl
     //*************************************************************************
     /// Returns the maximum possible size of the array.
     //*************************************************************************
-    size_t max_size() const
+    ETL_CONSTEXPR_11 size_t max_size() const
     {
       return SIZE;
     }
