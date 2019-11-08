@@ -792,6 +792,15 @@
     <ClInclude Include="..\..\include\etl\profiles\determine_compiler.h">
       <Filter>ETL\Profiles</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\etl\profiles\auto.h">
+      <Filter>ETL\Profiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\profiles\auto_no_stl.h">
+      <Filter>ETL\Profiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\etl\profiles\determine_compiler_language_support.h">
+      <Filter>ETL\Profiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">

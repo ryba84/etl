@@ -10,7 +10,7 @@ namespace etlstd
   template <typename T = void>
   struct less
   {
-    ETL_CONSTEXPR bool operator()(const T &lhs, const T &rhs) const
+    ETL_CONSTEXPR_11 bool operator()(const T &lhs, const T &rhs) const
     {
       return lhs < rhs;
     }
@@ -20,7 +20,7 @@ namespace etlstd
   template <typename T = void>
   struct greater
   {
-    ETL_CONSTEXPR bool operator()(const T &lhs, const T &rhs) const
+    ETL_CONSTEXPR_11 bool operator()(const T &lhs, const T &rhs) const
     {
       return lhs > rhs;
     }
@@ -30,7 +30,7 @@ namespace etlstd
   template <typename T = void>
   struct equal_to
   {
-    ETL_CONSTEXPR bool operator()(const T &lhs, const T &rhs) const
+    ETL_CONSTEXPR_11 bool operator()(const T &lhs, const T &rhs) const
     {
       return lhs == rhs;
     }
@@ -40,7 +40,7 @@ namespace etlstd
   template <typename T = void>
   struct not_equal_to
   {
-    ETL_CONSTEXPR bool operator()(const T &lhs, const T &rhs) const
+    ETL_CONSTEXPR_11 bool operator()(const T &lhs, const T &rhs) const
     {
       return lhs != rhs;
     }
