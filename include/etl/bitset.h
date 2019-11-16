@@ -62,7 +62,7 @@ SOFTWARE.
 
 //*****************************************************************************
 ///\defgroup bitset bitset
-/// Similar to std::bitset but without requiring std::string.
+/// Similar to ETLSTD::bitset but without requiring ETLSTD::string.
 ///\ingroup containers
 //*****************************************************************************
 
@@ -312,7 +312,7 @@ namespace etl
     {
       reset();
 
-      size_t i = std::min(NBITS, etl::strlen(text));
+      size_t i = ETLSTD::min(NBITS, etl::strlen(text));
 
       while (i > 0)
       {
@@ -329,7 +329,7 @@ namespace etl
     {
       reset();
 
-      size_t i = std::min(NBITS, etl::strlen(text));
+      size_t i = ETLSTD::min(NBITS, etl::strlen(text));
 
       while (i > 0)
       {
@@ -346,7 +346,7 @@ namespace etl
     {
       reset();
 
-      size_t i = std::min(NBITS, etl::strlen(text));
+      size_t i = ETLSTD::min(NBITS, etl::strlen(text));
 
       while (i > 0)
       {
@@ -363,7 +363,7 @@ namespace etl
     {
       reset();
 
-      size_t i = std::min(NBITS, etl::strlen(text));
+      size_t i = ETLSTD::min(NBITS, etl::strlen(text));
 
       while (i > 0)
       {
@@ -380,7 +380,7 @@ namespace etl
     {
       reset();
 
-      size_t i = std::min(NBITS, etl::strlen(text));
+      size_t i = ETLSTD::min(NBITS, etl::strlen(text));
 
       while (i > 0)
       {
@@ -746,7 +746,7 @@ namespace etl
     //*************************************************************************
     void swap(ibitset& other)
     {
-      std::swap_ranges(pdata, pdata + SIZE, other.pdata);
+      ETLSTD::swap_ranges(pdata, pdata + SIZE, other.pdata);
     }
 
   protected:
@@ -818,7 +818,7 @@ namespace etl
     //*************************************************************************
     static bool is_equal(const ibitset& lhs, const ibitset&rhs)
     {
-      return std::equal(lhs.pdata, lhs.pdata + lhs.SIZE, rhs.pdata);
+      return ETLSTD::equal(lhs.pdata, lhs.pdata + lhs.SIZE, rhs.pdata);
     }
 
     element_t TOP_MASK;
@@ -851,7 +851,7 @@ namespace etl
   //*************************************************************************
   /// The class emulates an array of bool elements, but optimized for space allocation.
   /// Will accommodate any number of bits.
-  /// Does not use std::string.
+  /// Does not use ETLSTD::string.
   ///\tparam N The number of bits.
   ///\ingroup bitset
   //*************************************************************************

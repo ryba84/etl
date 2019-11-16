@@ -77,12 +77,12 @@ namespace etl
   /// Can be used as a reference type for all reference_flat_multimaps containing a specific type.
   ///\ingroup reference_flat_multimap
   //***************************************************************************
-  template <typename TKey, typename TMapped, typename TKeyCompare = std::less<TKey> >
+  template <typename TKey, typename TMapped, typename TKeyCompare = ETLSTD::less<TKey> >
   class ireference_flat_multimap
   {
   public:
 
-    typedef std::pair<const TKey, TMapped> value_type;
+    typedef ETLSTD::pair<const TKey, TMapped> value_type;
 
   protected:
 
@@ -100,7 +100,7 @@ namespace etl
     typedef size_t            size_type;
 
     //*************************************************************************
-    class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type>
+    class iterator : public ETLSTD::iterator<ETLSTD::bidirectional_iterator_tag, value_type>
     {
     public:
 
@@ -198,7 +198,7 @@ namespace etl
     };
 
     //*************************************************************************
-    class const_iterator : public std::iterator<std::bidirectional_iterator_tag, const value_type>
+    class const_iterator : public ETLSTD::iterator<ETLSTD::bidirectional_iterator_tag, const value_type>
     {
     public:
 
@@ -442,7 +442,7 @@ namespace etl
     void assign(TIterator first, TIterator last)
     {
 #if defined(ETL_DEBUG)
-      difference_type d = std::distance(first, last);
+      difference_type d = ETLSTD::distance(first, last);
       ETL_ASSERT(d <= difference_type(capacity()), ETL_ERROR(flat_multimap_full));
 #endif
 
@@ -459,11 +459,11 @@ namespace etl
     /// If asserts or exceptions are enabled, emits reference_flat_multimap_full if the reference_flat_multimap is already full.
     ///\param value    The value to insert.
     //*********************************************************************
-    std::pair<iterator, bool> insert(value_type& value)
+    ETLSTD::pair<iterator, bool> insert(value_type& value)
     {
       ETL_ASSERT(!lookup.full(), ETL_ERROR(flat_multimap_full));
 
-      std::pair<iterator, bool> result(end(), false);
+      ETLSTD::pair<iterator, bool> result(end(), false);
 
       iterator i_element = lower_bound(value.first);
 
@@ -504,7 +504,7 @@ namespace etl
     //*********************************************************************
     size_t erase(key_parameter_t key)
     {
-      std::pair<iterator, iterator> range = equal_range(key);
+      ETLSTD::pair<iterator, iterator> range = equal_range(key);
 
       if (range.first == end())
       {
@@ -512,7 +512,7 @@ namespace etl
       }
       else
       {
-        size_t d = std::distance(range.first, range.second);
+        size_t d = ETLSTD::distance(range.first, range.second);
         erase(range.first, range.second);
         return d;
       }
@@ -602,9 +602,9 @@ namespace etl
     //*********************************************************************
     size_t count(key_parameter_t key) const
     {
-      std::pair<const_iterator, const_iterator> range = equal_range(key);
+      ETLSTD::pair<const_iterator, const_iterator> range = equal_range(key);
 
-      return std::distance(range.first, range.second);
+      return ETLSTD::distance(range.first, range.second);
     }
 
     //*********************************************************************
@@ -614,7 +614,7 @@ namespace etl
     //*********************************************************************
     iterator lower_bound(key_parameter_t key)
     {
-      return std::lower_bound(begin(), end(), key, compare);
+      return ETLSTD::lower_bound(begin(), end(), key, compare);
     }
 
     //*********************************************************************
@@ -624,7 +624,7 @@ namespace etl
     //*********************************************************************
     const_iterator lower_bound(key_parameter_t key) const
     {
-      return std::lower_bound(cbegin(), cend(), key, compare);
+      return ETLSTD::lower_bound(cbegin(), cend(), key, compare);
     }
 
     //*********************************************************************
@@ -634,7 +634,7 @@ namespace etl
     //*********************************************************************
     iterator upper_bound(key_parameter_t key)
     {
-      return std::upper_bound(begin(), end(), key, compare);
+      return ETLSTD::upper_bound(begin(), end(), key, compare);
     }
 
     //*********************************************************************
@@ -644,7 +644,7 @@ namespace etl
     //*********************************************************************
     const_iterator upper_bound(key_parameter_t key) const
     {
-      return std::upper_bound(begin(), end(), key, compare);
+      return ETLSTD::upper_bound(begin(), end(), key, compare);
     }
 
     //*********************************************************************
@@ -652,11 +652,11 @@ namespace etl
     ///\param key The key to search for.
     ///\return An iterator pair.
     //*********************************************************************
-    std::pair<iterator, iterator> equal_range(key_parameter_t key)
+    ETLSTD::pair<iterator, iterator> equal_range(key_parameter_t key)
     {
-      iterator i_lower = std::lower_bound(begin(), end(), key, compare);
+      iterator i_lower = ETLSTD::lower_bound(begin(), end(), key, compare);
 
-      return std::make_pair(i_lower, std::upper_bound(i_lower, end(), key, compare));
+      return ETLSTD::make_pair(i_lower, ETLSTD::upper_bound(i_lower, end(), key, compare));
     }
 
     //*********************************************************************
@@ -664,11 +664,11 @@ namespace etl
     ///\param key The key to search for.
     ///\return An iterator pair.
     //*********************************************************************
-    std::pair<const_iterator, const_iterator> equal_range(key_parameter_t key) const
+    ETLSTD::pair<const_iterator, const_iterator> equal_range(key_parameter_t key) const
     {
-      const_iterator i_lower = std::lower_bound(cbegin(), cend(), key, compare);
+      const_iterator i_lower = ETLSTD::lower_bound(cbegin(), cend(), key, compare);
 
-      return std::make_pair(i_lower, std::upper_bound(i_lower, cend(), key, compare));
+      return ETLSTD::make_pair(i_lower, ETLSTD::upper_bound(i_lower, cend(), key, compare));
     }
 
     //*************************************************************************
@@ -740,9 +740,9 @@ namespace etl
     ///\param i_element The place to insert.
     ///\param value     The value to insert.
     //*********************************************************************
-    std::pair<iterator, bool> insert_at(iterator i_element, value_type& value)
+    ETLSTD::pair<iterator, bool> insert_at(iterator i_element, value_type& value)
     {
-      std::pair<iterator, bool> result(end(), false);
+      ETLSTD::pair<iterator, bool> result(end(), false);
 
       if (i_element == end())
       {
@@ -798,7 +798,7 @@ namespace etl
   template <typename TKey, typename TMapped, typename TKeyCompare>
   bool operator ==(const etl::ireference_flat_multimap<TKey, TMapped, TKeyCompare>& lhs, const etl::ireference_flat_multimap<TKey, TMapped, TKeyCompare>& rhs)
   {
-    return (lhs.size() == rhs.size()) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && ETLSTD::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -814,12 +814,12 @@ namespace etl
     return !(lhs == rhs);
   }
 
-  template <typename TKey, typename TValue, const size_t MAX_SIZE_, typename TCompare = std::less<TKey> >
+  template <typename TKey, typename TValue, const size_t MAX_SIZE_, typename TCompare = ETLSTD::less<TKey> >
   //***************************************************************************
   /// A reference_flat_multimap implementation that uses a fixed size buffer.
   ///\tparam TKey     The key type.
   ///\tparam TValue   The value type.
-  ///\tparam TCompare The type to compare keys. Default = std::less<TKey>
+  ///\tparam TCompare The type to compare keys. Default = ETLSTD::less<TKey>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup reference_flat_multimap
   //***************************************************************************

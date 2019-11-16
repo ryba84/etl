@@ -129,13 +129,13 @@ SOFTWARE.
 //		void operator()(PARAMS... arg, delegate<void(size_t, RET*)> handler) const {
 //			operator()<decltype(handler)>(arg..., handler);
 //		} //operator()
-//		void operator()(PARAMS... arg, std::function<void(size_t, RET*)> handler) const {
+//		void operator()(PARAMS... arg, ETLSTD::function<void(size_t, RET*)> handler) const {
 //			operator()<decltype(handler)>(arg..., handler);
 //		} //operator()
 //
 //	private:
 //
-//		std::list<typename delegate_base<RET(PARAMS...)>::InvocationElement *> invocationList;
+//		ETLSTD::list<typename delegate_base<RET(PARAMS...)>::InvocationElement *> invocationList;
 //
 //	}; //class multicast_delegate
 //

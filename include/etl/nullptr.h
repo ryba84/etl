@@ -74,7 +74,7 @@ namespace std
 ///\ingroup nullptr
 //*****************************************************************************
 #if !defined(ETL_STLPORT) && (defined(ETL_COMPILER_ARM5) && (__cplusplus < 201103L))
-const std::nullptr_t nullptr = {};
+const ETLSTD::nullptr_t nullptr = {};
 #endif
 
 #else

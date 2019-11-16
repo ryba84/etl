@@ -343,7 +343,7 @@ namespace etl
         storage.template get_reference<T>().~T();
       }
 
-      ::new (storage.template get_address<T>()) T(std::forward<Args>(args)...);
+      ::new (storage.template get_address<T>()) T(ETLSTD::forward<Args>(args)...);
       valid = true;
     }
 #else

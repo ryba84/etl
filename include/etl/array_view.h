@@ -121,7 +121,7 @@ namespace etl
     }
 
     //*************************************************************************
-    /// Construct from std::array or etl::array or other type that supports
+    /// Construct from ETLSTD::array or etl::array or other type that supports
     /// data() and size() member functions.
     //*************************************************************************
     template <typename TArray>
@@ -137,7 +137,7 @@ namespace etl
     template <typename TIterator>
     ETL_CONSTEXPR array_view(const TIterator begin_, const TIterator end_)
       : mbegin(etl::addressof(*begin_)),
-        mend(etl::addressof(*begin_) + std::distance(begin_, end_))
+        mend(etl::addressof(*begin_) + ETLSTD::distance(begin_, end_))
     {
     }
 
@@ -356,7 +356,7 @@ namespace etl
     void assign(const TIterator begin_, const TIterator end_)
     {
       mbegin = etl::addressof(*begin_);
-      mend   = etl::addressof(*begin_) + std::distance(begin_, end_);
+      mend   = etl::addressof(*begin_) + ETLSTD::distance(begin_, end_);
     }
 
     //*************************************************************************
@@ -411,8 +411,8 @@ namespace etl
     //*************************************************************************
     void swap(array_view& other)
     {
-      std::swap(mbegin, other.mbegin);
-      std::swap(mend, other.mend);
+      ETLSTD::swap(mbegin, other.mbegin);
+      ETLSTD::swap(mend, other.mend);
     }
 
     //*************************************************************************
@@ -437,7 +437,7 @@ namespace etl
     friend bool operator == (const array_view<T>& lhs, const array_view<T>& rhs)
     {
       return (lhs.size() == rhs.size()) &&
-             std::equal(lhs.begin(), lhs.end(), rhs.begin());
+             ETLSTD::equal(lhs.begin(), lhs.end(), rhs.begin());
     }
 
     //*************************************************************************
@@ -453,7 +453,7 @@ namespace etl
     //*************************************************************************
     friend bool operator < (const array_view<T>& lhs, const array_view<T>& rhs)
     {
-      return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+      return ETLSTD::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     //*************************************************************************

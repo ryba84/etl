@@ -59,7 +59,7 @@ namespace etl
   /// Can be used as a reference type for all flat_sets containing a specific type.
   ///\ingroup flat_set
   //***************************************************************************
-  template <typename T, typename TKeyCompare = std::less<T> >
+  template <typename T, typename TKeyCompare = ETLSTD::less<T> >
   class iflat_set : private etl::ireference_flat_set<T, TKeyCompare>
   {
   private:
@@ -211,7 +211,7 @@ namespace etl
     void assign(TIterator first, TIterator last)
     {
 #if defined(ETL_DEBUG)
-      difference_type d = std::distance(first, last);
+      difference_type d = ETLSTD::distance(first, last);
       ETL_ASSERT(d <= difference_type(capacity()), ETL_ERROR(flat_set_full));
 #endif
 
@@ -228,11 +228,11 @@ namespace etl
     /// If asserts or exceptions are enabled, emits flat_set_full if the flat_set is already full.
     ///\param value    The value to insert.
     //*********************************************************************
-    std::pair<iterator, bool> insert(parameter_t value)
+    ETLSTD::pair<iterator, bool> insert(parameter_t value)
     {
       iterator i_element = lower_bound(value);
 
-      std::pair<iterator, bool> result(i_element, false);
+      ETLSTD::pair<iterator, bool> result(i_element, false);
 
       // Doesn't already exist?
       if ((i_element == end()) || compare(value, *i_element))
@@ -278,7 +278,7 @@ namespace etl
     //*************************************************************************
     /// Emplaces a value to the set.
     //*************************************************************************
-    std::pair<iterator, bool> emplace(parameter_t value)
+    ETLSTD::pair<iterator, bool> emplace(parameter_t value)
     {
       return insert(value);
     }
@@ -288,15 +288,15 @@ namespace etl
     //*************************************************************************
 #if ETL_CPP11_SUPPORTED && !defined(ETL_STLPORT)
     template <typename ... Args>
-    std::pair<iterator, bool> emplace(Args && ... args)
+    ETLSTD::pair<iterator, bool> emplace(Args && ... args)
     {
       ETL_ASSERT(!full(), ETL_ERROR(flat_set_full));
 
-      std::pair<iterator, bool> result;
+      ETLSTD::pair<iterator, bool> result;
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new (pvalue) value_type(std::forward<Args>(args)...);
+      ::new (pvalue) value_type(ETLSTD::forward<Args>(args)...);
 
       iterator i_element = lower_bound(*pvalue);
 
@@ -311,7 +311,7 @@ namespace etl
         // Destroy it.
         pvalue->~value_type();
         storage.release(pvalue);
-        result = std::pair<iterator, bool>(end(), false);
+        result = ETLSTD::pair<iterator, bool>(end(), false);
       }
 
       return result;
@@ -321,11 +321,11 @@ namespace etl
     /// Emplaces a value to the set.
     //*************************************************************************
     template <typename T1>
-    std::pair<iterator, bool> emplace(const T1& value1)
+    ETLSTD::pair<iterator, bool> emplace(const T1& value1)
     {
       ETL_ASSERT(!full(), ETL_ERROR(flat_set_full));
 
-      std::pair<iterator, bool> result;
+      ETLSTD::pair<iterator, bool> result;
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
@@ -344,7 +344,7 @@ namespace etl
         // Destroy it.
         pvalue->~value_type();
         storage.release(pvalue);
-        result = std::pair<iterator, bool>(end(), false);
+        result = ETLSTD::pair<iterator, bool>(end(), false);
       }
 
       return result;
@@ -354,11 +354,11 @@ namespace etl
     /// Emplaces a value to the set.
     //*************************************************************************
     template <typename T1, typename T2>
-    std::pair<iterator, bool> emplace(const T1& value1, const T2& value2)
+    ETLSTD::pair<iterator, bool> emplace(const T1& value1, const T2& value2)
     {
       ETL_ASSERT(!full(), ETL_ERROR(flat_set_full));
 
-      std::pair<iterator, bool> result;
+      ETLSTD::pair<iterator, bool> result;
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
@@ -377,7 +377,7 @@ namespace etl
         // Destroy it.
         pvalue->~value_type();
         storage.release(pvalue);
-        result = std::pair<iterator, bool>(end(), false);
+        result = ETLSTD::pair<iterator, bool>(end(), false);
       }
 
       return result;
@@ -387,11 +387,11 @@ namespace etl
     /// Emplaces a value to the set.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
-    std::pair<iterator, bool> emplace(const T1& value1, const T2& value2, const T3& value3)
+    ETLSTD::pair<iterator, bool> emplace(const T1& value1, const T2& value2, const T3& value3)
     {
       ETL_ASSERT(!full(), ETL_ERROR(flat_set_full));
 
-      std::pair<iterator, bool> result;
+      ETLSTD::pair<iterator, bool> result;
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
@@ -410,7 +410,7 @@ namespace etl
         // Destroy it.
         pvalue->~value_type();
         storage.release(pvalue);
-        result = std::pair<iterator, bool>(end(), false);
+        result = ETLSTD::pair<iterator, bool>(end(), false);
       }
 
       return result;
@@ -420,11 +420,11 @@ namespace etl
     /// Emplaces a value to the set.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
-    std::pair<iterator, bool> emplace(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
+    ETLSTD::pair<iterator, bool> emplace(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
     {
       ETL_ASSERT(!full(), ETL_ERROR(flat_set_full));
 
-      std::pair<iterator, bool> result;
+      ETLSTD::pair<iterator, bool> result;
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
@@ -443,7 +443,7 @@ namespace etl
         // Destroy it.
         pvalue->~value_type();
         storage.release(pvalue);
-        result = std::pair<iterator, bool>(end(), false);
+        result = ETLSTD::pair<iterator, bool>(end(), false);
       }
 
       return result;
@@ -608,7 +608,7 @@ namespace etl
     ///\param key The key to search for.
     ///\return An iterator pair.
     //*********************************************************************
-    std::pair<iterator, iterator> equal_range(parameter_t key)
+    ETLSTD::pair<iterator, iterator> equal_range(parameter_t key)
     {
       return refset_t::equal_range(key);
     }
@@ -618,7 +618,7 @@ namespace etl
     ///\param key The key to search for.
     ///\return An iterator pair.
     //*********************************************************************
-    std::pair<const_iterator, const_iterator> equal_range(parameter_t key) const
+    ETLSTD::pair<const_iterator, const_iterator> equal_range(parameter_t key) const
     {
       return refset_t::upper_bound(key);
     }
@@ -739,7 +739,7 @@ namespace etl
   template <typename T, typename TKeyCompare>
   bool operator ==(const etl::iflat_set<T, TKeyCompare>& lhs, const etl::iflat_set<T, TKeyCompare>& rhs)
   {
-    return (lhs.size() == rhs.size()) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && ETLSTD::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -758,11 +758,11 @@ namespace etl
   //***************************************************************************
   /// A flat_set implementation that uses a fixed size buffer.
   ///\tparam T        The value type.
-  ///\tparam TCompare The type to compare keys. Default = std::less<T>
+  ///\tparam TCompare The type to compare keys. Default = ETLSTD::less<T>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup flat_set
   //***************************************************************************
-  template <typename T, const size_t MAX_SIZE_, typename TCompare = std::less<T> >
+  template <typename T, const size_t MAX_SIZE_, typename TCompare = ETLSTD::less<T> >
   class flat_set : public etl::iflat_set<T, TCompare>
   {
   public:
@@ -803,7 +803,7 @@ namespace etl
     //*************************************************************************
     /// Construct from initializer_list.
     //*************************************************************************
-    flat_set(std::initializer_list<T> init)
+    flat_set(ETLSTD::initializer_list<T> init)
       : etl::iflat_set<T, TCompare>(lookup, storage)
     {
       this->assign(init.begin(), init.end());

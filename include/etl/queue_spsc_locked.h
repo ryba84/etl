@@ -81,7 +81,7 @@ namespace etl
     template <typename ... Args>
     bool emplace_from_unlocked(Args&&... args)
     {
-      return emplace_implementation(std::forward<Args>(args)...);
+      return emplace_implementation(ETLSTD::forward<Args>(args)...);
     }
 #endif
 
@@ -206,7 +206,7 @@ namespace etl
     {
       if (current_size != MAX_SIZE)
       {
-        ::new (&p_buffer[write_index]) T(std::forward<Args>(args)...);
+        ::new (&p_buffer[write_index]) T(ETLSTD::forward<Args>(args)...);
 
         write_index = get_next_index(write_index, MAX_SIZE);
 
@@ -435,7 +435,7 @@ namespace etl
     {
       lock();
 
-      bool result = this->emplace_implementation(std::forward<Args>(args)...);
+      bool result = this->emplace_implementation(ETLSTD::forward<Args>(args)...);
 
       unlock();
 

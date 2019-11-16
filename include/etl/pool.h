@@ -224,7 +224,7 @@ namespace etl
 
       if (p)
       {
-        ::new (p) T(std::forward<Args>(args)...);
+        ::new (p) T(ETLSTD::forward<Args>(args)...);
       }
 
       return p;
@@ -563,7 +563,7 @@ namespace etl
     {
       ETL_STATIC_ASSERT(etl::alignment_of<U>::value <= ALIGNMENT_, "Type has incompatible alignment");
       ETL_STATIC_ASSERT(sizeof(U) <= TYPE_SIZE, "Type too large for pool");
-      return ipool::create<U>(std::forward<Args>(args)...);
+      return ipool::create<U>(ETLSTD::forward<Args>(args)...);
     }
 #endif
 
@@ -716,7 +716,7 @@ namespace etl
     {
       ETL_STATIC_ASSERT(etl::alignment_of<U>::value <= ALIGNMENT, "Type has incompatible alignment");
       ETL_STATIC_ASSERT(sizeof(U) <= TYPE_SIZE, "Type too large for pool");
-      return base_t::template create<U>(std::forward<Args>(args)...);
+      return base_t::template create<U>(ETLSTD::forward<Args>(args)...);
     }
 #endif
 

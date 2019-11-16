@@ -310,7 +310,7 @@ namespace etl
     //*************************************************************************
     void fill(parameter_t value)
     {
-      std::fill(begin(), end(), value);
+      ETLSTD::fill(begin(), end(), value);
     }
 
     //*************************************************************************
@@ -322,7 +322,7 @@ namespace etl
     {
       for (size_t i = 0; i < SIZE; ++i)
       {
-        std::swap(ARRAY_[i], other.begin()[i]);
+        ETLSTD::swap(ARRAY_[i], other.begin()[i]);
       }
     }
   };
@@ -334,7 +334,7 @@ namespace etl
   bool operator == (const etl::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
                     const etl::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
-    return (SIZEL == SIZER) && std::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (SIZEL == SIZER) && ETLSTD::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //*************************************************************************
@@ -354,7 +354,7 @@ namespace etl
   bool operator < (const etl::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
                    const etl::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
-    return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return ETLSTD::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //*************************************************************************

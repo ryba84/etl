@@ -152,7 +152,7 @@ namespace etl
     void assign(TIterator first, TIterator last)
     {
 #if defined(ETL_DEBUG)
-      intmax_t d = std::distance(first, last);
+      intmax_t d = ETLSTD::distance(first, last);
       ETL_ASSERT(d >= 0, ETL_ERROR(intrusive_forward_list_iterator_exception));
 #endif
 
@@ -327,7 +327,7 @@ namespace etl
     //*************************************************************************
     /// iterator.
     //*************************************************************************
-    class iterator : public std::iterator<std::forward_iterator_tag, value_type>
+    class iterator : public ETLSTD::iterator<ETLSTD::forward_iterator_tag, value_type>
     {
     public:
 
@@ -417,7 +417,7 @@ namespace etl
     //*************************************************************************
     /// const_iterator
     //*************************************************************************
-    class const_iterator : public std::iterator<std::forward_iterator_tag, const value_type>
+    class const_iterator : public ETLSTD::iterator<ETLSTD::forward_iterator_tag, const value_type>
     {
     public:
 
@@ -650,7 +650,7 @@ namespace etl
     {
       if (first != end() && (first != last))
       {
-        this->current_size -= std::distance(first, last) - 1;
+        this->current_size -= ETLSTD::distance(first, last) - 1;
 
         link_type* p_first = first.p_value;
         link_type* p_last = last.p_value;
@@ -711,7 +711,7 @@ namespace etl
     //*************************************************************************
     void sort()
     {
-      sort(std::less<value_type>());
+      sort(ETLSTD::less<value_type>());
     }
 
     //*************************************************************************
@@ -937,7 +937,7 @@ namespace etl
       {
         if (&other != this)
         {
-          size_t n = std::distance(begin_, end_) - 1;
+          size_t n = ETLSTD::distance(begin_, end_) - 1;
           this->current_size += n;
           other.current_size -= n;
         }
@@ -966,7 +966,7 @@ namespace etl
     //*************************************************************************
     void merge(list_type& other)
     {
-      merge(other, std::less<value_type>());
+      merge(other, ETLSTD::less<value_type>());
     }
 
     //*************************************************************************

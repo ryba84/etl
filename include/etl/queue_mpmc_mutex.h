@@ -174,7 +174,7 @@ namespace etl
     {
       access.lock();
 
-      bool result = emplace_implementation(std::forward<Args>(args)...);
+      bool result = emplace_implementation(ETLSTD::forward<Args>(args)...);
 
       access.unlock();
 
@@ -387,7 +387,7 @@ namespace etl
     {
       if (current_size != MAX_SIZE)
       {
-        ::new (&p_buffer[write_index]) T(std::forward<Args>(args)...);
+        ::new (&p_buffer[write_index]) T(ETLSTD::forward<Args>(args)...);
 
         write_index = get_next_index(write_index, MAX_SIZE);
 
