@@ -720,7 +720,7 @@ namespace etl
   /// A flat_multimap implementation that uses a fixed size buffer.
   ///\tparam TKey     The key type.
   ///\tparam TValue   The value type.
-  ///\tparam TCompare The type to compare keys. Default = ETLSTD::less<TKey>
+  ///\tparam TCompare The type to compare keys. Default = std::less<TKey>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup flat_multimap
   //***************************************************************************

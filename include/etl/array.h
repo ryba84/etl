@@ -47,7 +47,7 @@ SOFTWARE.
 #include "algorithm.h"
 
 ///\defgroup array array
-/// A replacement for ETLSTD::array if you haven't got C++0x11.
+/// A replacement for std::array if you haven't got C++0x11.
 ///\ingroup containers
 
 namespace etl
@@ -82,7 +82,7 @@ namespace etl
 
   //***************************************************************************
   ///\ingroup array
-  /// A replacement for ETLSTD::array if you haven't got C++0x11.
+  /// A replacement for std::array if you haven't got C++0x11.
   //***************************************************************************
   template <typename T, const size_t SIZE_>
   class array

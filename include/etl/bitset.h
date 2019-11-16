@@ -62,7 +62,7 @@ SOFTWARE.
 
 //*****************************************************************************
 ///\defgroup bitset bitset
-/// Similar to ETLSTD::bitset but without requiring ETLSTD::string.
+/// Similar to std::bitset but without requiring std::string.
 ///\ingroup containers
 //*****************************************************************************
 
@@ -851,7 +851,7 @@ namespace etl
   //*************************************************************************
   /// The class emulates an array of bool elements, but optimized for space allocation.
   /// Will accommodate any number of bits.
-  /// Does not use ETLSTD::string.
+  /// Does not use std::string.
   ///\tparam N The number of bits.
   ///\ingroup bitset
   //*************************************************************************

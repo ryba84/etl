@@ -121,7 +121,7 @@ namespace etl
     }
 
     //*************************************************************************
-    /// Construct from ETLSTD::array or etl::array or other type that supports
+    /// Construct from std::array or etl::array or other type that supports
     /// data() and size() member functions.
     //*************************************************************************
     template <typename TArray>

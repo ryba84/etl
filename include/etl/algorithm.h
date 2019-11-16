@@ -759,7 +759,7 @@ namespace etl
   }
 
   //***************************************************************************
-  /// Like ETLSTD::for_each but applies a predicate before calling the function.
+  /// Like std::for_each but applies a predicate before calling the function.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TIterator,
@@ -784,7 +784,7 @@ namespace etl
   }
 
     //***************************************************************************
-  /// Like ETLSTD::for_each but for 'n' iterations.
+  /// Like std::for_each but for 'n' iterations.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TIterator,
@@ -803,7 +803,7 @@ namespace etl
   }
 
   //***************************************************************************
-  /// Like ETLSTD::for_each but applies a predicate before calling the function, for 'n' iterations
+  /// Like std::for_each but applies a predicate before calling the function, for 'n' iterations
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TIterator,
@@ -829,7 +829,7 @@ namespace etl
   }
 
   //***************************************************************************
-  /// A form of ETLSTD::transform where the transform returns when the first range
+  /// A form of std::transform where the transform returns when the first range
   /// end is reached.
   /// There is currently no STL equivalent.
   ///\ingroup algorithm
@@ -940,7 +940,7 @@ namespace etl
   }
 
   //***************************************************************************
-  /// Like ETLSTD::transform but applies a predicate before calling the function.
+  /// Like std::transform but applies a predicate before calling the function.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TInputIterator,
@@ -997,7 +997,7 @@ namespace etl
   }
 
   //***************************************************************************
-  /// Like ETLSTD::transform_if, for 'n' items.
+  /// Like std::transform_if, for 'n' items.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TInputIterator,

@@ -675,7 +675,7 @@ namespace etl
   //***************************************************************************
   /// A flat_multiset implementation that uses a fixed size buffer.
   ///\tparam T        The value type.
-  ///\tparam TCompare The type to compare keys. Default = ETLSTD::less<T>
+  ///\tparam TCompare The type to compare keys. Default = std::less<T>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup flat_multiset
   //***************************************************************************
